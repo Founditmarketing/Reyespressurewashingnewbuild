@@ -46,7 +46,7 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
   }, [isMenuOpen]);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? "glass-nav py-4" : "bg-transparent py-8"}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? "glass-nav py-4" : "bg-white/10 backdrop-blur-md py-8 border-b border-white/10"}`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
         <div className="flex items-center cursor-pointer group" onClick={() => onNavigate('home')}>
           <div className="relative p-1.5 bg-white rounded-full border-2 border-white/80 shadow-lg transition-transform duration-300 group-hover:scale-105">
