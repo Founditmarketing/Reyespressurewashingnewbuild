@@ -1454,8 +1454,15 @@ export default function App() {
         className="fixed inset-0 z-[100] bg-slate-950 overflow-hidden flex items-center justify-center"
       >
         {/* Grimy Glass Background */}
-        <div
-          className="absolute inset-0 opacity-100"
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 0 }}
+          transition={{
+            duration: 2.5,
+            ease: [0.76, 0, 0.24, 1],
+            delay: 0.8
+          }}
+          className="absolute inset-0"
           style={{
             backgroundImage: 'url("/images/layout/grimy-glass.png")',
             backgroundSize: 'cover',
