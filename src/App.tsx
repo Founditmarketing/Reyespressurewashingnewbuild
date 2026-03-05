@@ -301,54 +301,108 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
     }
   ];
 
+  const [width, setWidth] = useState(0);
+  const carousel = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (carousel.current) {
+      setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
+    }
+  }, []);
+
   return (
-    <section id="services" className="section-padding bg-white relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-aqua/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+    <section id="services" className="section-padding bg-slate-950 relative overflow-hidden">
+      {/* Premium Background Accents */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-aqua/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 opacity-30" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-deep-blue/20 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 opacity-30" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl mb-6">Premium <span className="text-aqua">Exterior</span> Services</h2>
-          <p className="text-slate-500 max-w-2xl mx-auto text-lg font-normal">
-            We use professional-grade equipment and specialized techniques to ensure your property remains a source of pride for years to come.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
-              whileHover={{ y: -8 }}
-              className="group bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,163,224,0.15)] hover:border-aqua/20 transition-all duration-500 cursor-pointer flex flex-col"
-              onClick={() => onSelectService(service.id)}
+      <div className="max-w-[1400px] mx-auto relative z-10 px-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+          <div className="max-w-2xl">
+            <motion.span
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="text-aqua font-bold tracking-[0.3em] uppercase text-xs mb-4 block"
             >
-              <div className="relative aspect-video overflow-hidden">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-                <div className="absolute bottom-4 left-4 w-12 h-12 bg-aqua/90 backdrop-blur-md text-white rounded-xl flex items-center justify-center shadow-[0_8px_20px_rgba(0,163,224,0.4)] border border-white/20 transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-2">
-                  {service.icon}
-                </div>
-              </div>
-              <div className="p-8 flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-2xl font-bold mb-4 group-hover:text-aqua transition-colors duration-300">{service.title}</h3>
-                  <p className="text-slate-500 text-[15px] leading-relaxed mb-8">{service.description}</p>
-                </div>
-                <div className="flex items-center text-aqua font-bold text-xs uppercase tracking-widest gap-2 group-hover:translate-x-2 transition-transform duration-300">
-                  Learn More <ArrowRight className="w-4 h-4" />
-                </div>
-              </div>
-            </motion.div>
-          ))}
+              Elite Treatments
+            </motion.span>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-6xl text-white leading-tight"
+            >
+              Professional <br />
+              <span className="text-aqua">Restoration</span> Services
+            </motion.h2>
+          </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="flex items-center gap-4 text-white/30 text-sm font-medium"
+          >
+            <span>Drag to Explore</span>
+            <div className="w-12 h-[2px] bg-white/10 relative overflow-hidden">
+              <motion.div
+                animate={{ x: [-48, 48] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+                className="absolute inset-0 bg-aqua/40"
+              />
+            </div>
+          </motion.div>
         </div>
+
+        <motion.div
+          ref={carousel}
+          className="cursor-grab active:cursor-grabbing overflow-hidden"
+        >
+          <motion.div
+            drag="x"
+            dragConstraints={{ right: 0, left: -width }}
+            className="flex gap-8"
+          >
+            {services.map((service, idx) => (
+              <motion.div
+                key={idx}
+                className="min-w-[320px] md:min-w-[400px] group relative bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-white/10 p-4 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20 flex flex-col h-[500px]"
+                onClick={() => onSelectService(service.id)}
+              >
+                <div className="relative h-[240px] rounded-[2rem] overflow-hidden mb-8">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60" />
+                  <div className="absolute top-6 left-6 w-12 h-12 bg-aqua/90 backdrop-blur-md text-white rounded-2xl flex items-center justify-center shadow-2xl border border-white/20">
+                    {service.icon}
+                  </div>
+                </div>
+
+                <div className="px-4 flex-1 flex flex-col">
+                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-aqua transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-white/40 text-[15px] leading-relaxed mb-8 line-clamp-3">
+                    {service.description}
+                  </p>
+
+                  <div className="mt-auto pb-4 flex items-center justify-between">
+                    <span className="text-aqua font-bold text-xs uppercase tracking-widest flex items-center gap-2">
+                      Explore Service <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                    <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/20 group-hover:border-aqua/40 group-hover:text-aqua transition-all">
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
