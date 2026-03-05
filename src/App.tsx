@@ -890,6 +890,13 @@ const GalleryPage = ({ onBack }: { onBack: () => void }) => {
       label: "Before & After Split"
     },
     {
+      title: "Complete Roof Transformation",
+      location: "Houston, TX",
+      type: "single",
+      image: "/images/Projects/roof-restoration-split.jpg",
+      label: "Total Revitalization"
+    },
+    {
       title: "Siding Revitalization",
       location: "Baytown, TX",
       type: "single",
@@ -1456,14 +1463,16 @@ const DifferencePage = ({ onBack }: { onBack: () => void }) => {
         {/* Water Spray Texture Overlay */}
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.15 }}
+          animate={{ opacity: 0.4 }}
           transition={{ duration: 1.5 }}
           className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage: 'url("/images/layout/water-texture.png")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            filter: 'brightness(2) contrast(1.2)'
+            filter: 'brightness(3) contrast(1.5)',
+            WebkitMaskImage: 'radial-gradient(circle at 50% 50%, black, transparent 80%)',
+            maskImage: 'radial-gradient(circle at 50% 50%, black, transparent 80%)'
           }}
         />
 
@@ -1521,11 +1530,11 @@ const DifferencePage = ({ onBack }: { onBack: () => void }) => {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl">
+            <div className="aspect-square rounded-[2.5rem] overflow-hidden shadow-2xl bg-white p-2">
               <img
-                src="/images/services/house-washing-houston.webp"
-                alt="Professional Restoration"
-                className="w-full h-full object-cover"
+                src="/images/Projects/roof-restoration-split.jpg"
+                alt="Total Roof Transformation"
+                className="w-full h-full object-cover rounded-[2rem]"
               />
             </div>
             <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-aqua rounded-[2rem] p-8 text-white shadow-2xl flex flex-col justify-center">
