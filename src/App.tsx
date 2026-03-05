@@ -69,6 +69,11 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
                   onNavigate('gallery');
                   return;
                 }
+                if (item === "The Difference") {
+                  e.preventDefault();
+                  onNavigate('difference-page');
+                  return;
+                }
                 if (item === "Our Process") {
                   e.preventDefault();
                   onNavigate('process');
@@ -117,6 +122,9 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
                     if (item === "Gallery") {
                       e.preventDefault();
                       onNavigate('gallery');
+                    } else if (item === "The Difference") {
+                      e.preventDefault();
+                      onNavigate('difference-page');
                     } else if (item === "Our Process") {
                       e.preventDefault();
                       onNavigate('process');
@@ -477,7 +485,7 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
   );
 };
 
-const ReyesDifference = () => {
+const ReyesDifference = ({ onLearnMore }: { onLearnMore: () => void }) => {
   const points = [
     {
       title: "Attention to Detail",
@@ -503,9 +511,15 @@ const ReyesDifference = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl mb-8">The <span className="text-aqua">Reyes</span> Difference.</h2>
-            <p className="text-lg text-slate-600 mb-12 leading-relaxed">
+            <p className="text-lg text-slate-600 mb-8 leading-relaxed">
               Choosing a professional service means choosing reliability and expertise. We've built our reputation on a foundation of trust and uncompromising quality.
             </p>
+            <button
+              onClick={onLearnMore}
+              className="group flex items-center gap-2 text-aqua font-bold uppercase tracking-widest text-sm mb-12 hover:gap-3 transition-all"
+            >
+              Learn more about our standards <ArrowRight className="w-4 h-4" />
+            </button>
             <div className="space-y-10">
               {points.map((point, idx) => (
                 <motion.div
@@ -1413,6 +1427,181 @@ const MobileCTA = () => {
   );
 };
 
+const DifferencePage = ({ onBack }: { onBack: () => void }) => {
+  const pillars = [
+    {
+      title: "Scientific Soft-Wash",
+      description: "We don't just blast away surface dirt. Our specialized solutions kill organic growth at the root, ensuring a longer-lasting clean while protecting your property's delicate materials.",
+      icon: <Droplets className="w-8 h-8" />,
+      tag: "Process"
+    },
+    {
+      title: "Industrial-Grade Tech",
+      description: "Our custom-built trailer rigs deliver precise pressure and heat control that consumer-grade units simply can't match, allowing us to tackle the toughest Houston grime safely.",
+      icon: <Zap className="w-8 h-8" />,
+      tag: "Equipment"
+    },
+    {
+      title: "Property Protection",
+      description: "Your landscaping is a multi-thousand dollar investment. We use pre-wetting, runoff diversion, and eco-conscious neutralizers to ensure your plants thrive after our visit.",
+      icon: <ShieldCheck className="w-8 h-8" />,
+      tag: "Commitment"
+    }
+  ];
+
+  return (
+    <div className="pt-32 pb-24 min-h-screen bg-slate-50">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
+          <div className="max-w-2xl">
+            <button
+              onClick={onBack}
+              className="group flex items-center gap-2 text-slate-500 hover:text-aqua transition-colors mb-6 text-sm font-semibold tracking-wider uppercase"
+            >
+              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+              Back to Home
+            </button>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-5xl md:text-7xl mb-8 leading-tight font-display font-light"
+            >
+              The <span className="text-aqua font-bold">Reyes</span> Standard.
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-slate-600 text-lg md:text-xl leading-relaxed font-light"
+            >
+              We believe every home deserves to look its best. At Reyes Pressure Washing, we don't just provide a service; we provide a total transformation backed by a commitment to uncompromising excellence.
+            </motion.p>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            className="flex items-center gap-4 text-sm font-bold tracking-widest uppercase mb-4"
+          >
+            <span className="text-aqua">Commitment to Quality</span>
+            <span className="w-12 h-px bg-slate-200" />
+            <span className="text-slate-400">Since Day 1</span>
+          </motion.div>
+        </div>
+
+        {/* Vision Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="relative"
+          >
+            <div className="aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl">
+              <img
+                src="/images/services/house-washing-houston.webp"
+                alt="Professional Restoration"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-aqua rounded-[2rem] p-8 text-white shadow-2xl flex flex-col justify-center">
+              <div className="text-4xl font-bold mb-1">100%</div>
+              <div className="text-sm font-medium opacity-90 uppercase tracking-wider">Satisfaction Guaranteed</div>
+            </div>
+          </motion.div>
+          <div className="space-y-10">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Mission</h2>
+              <p className="text-slate-500 text-lg leading-relaxed">
+                To revitalize and protect the Greater Houston area's properties through advanced cleaning technology, scientific chemical processes, and a relentless attention to detail that sets the standard for our industry.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6">
+              <div className="p-6 bg-white rounded-2xl shadow-sm border border-slate-100 transition-all hover:shadow-md">
+                <div className="w-12 h-12 bg-aqua/10 text-aqua rounded-xl flex items-center justify-center mb-4">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <h4 className="font-bold mb-2">Licensed & Insured</h4>
+                <p className="text-sm text-slate-500">Fully protected ops for your complete peace of mind.</p>
+              </div>
+              <div className="p-6 bg-white rounded-2xl shadow-sm border border-slate-100 transition-all hover:shadow-md">
+                <div className="w-12 h-12 bg-aqua/10 text-aqua rounded-xl flex items-center justify-center mb-4">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                <h4 className="font-bold mb-2">Pro-Grade Results</h4>
+                <p className="text-sm text-slate-500">Commercial equipment for a superior cleaning depth.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* The Difference Pillars */}
+        <div className="mb-32">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl md:text-5xl mb-6">What Sets Us <span className="text-aqua">Apart</span>.</h2>
+            <p className="text-slate-500 italic">"The difference is in the details. We don't stop until every surface is pristine."</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {pillars.map((pillar, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="group p-10 bg-white rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-slate-100 hover:border-aqua/20 transition-all hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(0,163,224,0.1)]"
+              >
+                <div className="w-16 h-16 bg-aqua/5 text-aqua rounded-2xl flex items-center justify-center mb-8 transition-colors group-hover:bg-aqua group-hover:text-white">
+                  {pillar.icon}
+                </div>
+                <span className="text-xs font-bold text-aqua uppercase tracking-[0.2em] mb-4 block">{pillar.tag}</span>
+                <h3 className="text-2xl font-bold mb-6">{pillar.title}</h3>
+                <p className="text-slate-500 leading-relaxed">{pillar.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Final CTA */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="relative bg-slate-950 rounded-[3rem] p-8 md:p-20 overflow-hidden text-center"
+        >
+          <div className="absolute top-0 right-0 w-96 h-96 bg-aqua/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-deep-blue/20 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3" />
+
+          <div className="relative z-10 max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-6xl text-white mb-8 leading-tight">Ready to experience the <span className="text-aqua">difference?</span></h2>
+            <p className="text-white/60 text-lg md:text-xl mb-12">Join hundreds of satisfied Houston homeowners who trust Reyes for their property's premium care.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <button
+                onClick={() => {
+                  onBack();
+                  setTimeout(() => {
+                    const el = document.getElementById('contact');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }}
+                className="premium-button py-4 px-10 text-lg w-full sm:w-auto"
+              >
+                Get Your Free Quote
+              </button>
+              <a href="tel:+12810000000" className="flex items-center gap-3 text-white font-bold hover:text-aqua transition-colors py-4 px-6">
+                <Phone className="w-5 h-5" /> Speak with an Expert
+              </a>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedService, setSelectedService] = useState<string | null>(null);
@@ -1530,7 +1719,7 @@ export default function App() {
             exit={{ opacity: 0 }}
           >
             <Hero onNavigate={setCurrentPage} />
-            <ReyesDifference />
+            <ReyesDifference onLearnMore={() => setCurrentPage('difference-page')} />
             <Services onSelectService={handleSelectService} />
             <Portfolio />
             <TestimonialsMarquee />
@@ -1552,6 +1741,15 @@ export default function App() {
             exit={{ opacity: 0, y: -20 }}
           >
             <OurProcess onBack={handleBack} />
+          </motion.div>
+        ) : currentPage === 'difference-page' ? (
+          <motion.div
+            key="difference"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+          >
+            <DifferencePage onBack={handleBack} />
           </motion.div>
         ) : currentPage === 'contact' ? (
           <motion.div
