@@ -202,14 +202,17 @@ const Hero = ({ onNavigate }: { onNavigate: (page: string) => void }) => {
           className="w-full h-full object-cover opacity-80 scale-x-[-1]"
           referrerPolicy="no-referrer"
         />
-        {/* Dirty side overlay (right) */}
+        {/* Textured Water Spray Overlay */}
         <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(45deg, transparent 50%, rgba(15, 23, 42, 0.6) 50%)' }}
+          className="absolute inset-0 opacity-40 mix-blend-overlay pointer-events-none"
+          style={{
+            backgroundImage: 'url("/images/layout/water-texture.png")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
         />
-        {/* Softening and color integration */}
+        {/* Softening color integration */}
         <div className="absolute inset-0 bg-gradient-to-b from-deep-blue/40 via-transparent to-deep-blue" />
-        <div className="absolute inset-0 bg-gradient-to-r from-deep-blue/60 via-transparent to-transparent" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
