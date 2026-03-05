@@ -1334,7 +1334,7 @@ const ContactPage = ({ onBack }: { onBack: () => void }) => {
                     </div>
                     <div>
                       <p className="text-xs font-bold tracking-widest uppercase text-white/40 mb-1">Phone</p>
-                      <p className="text-white font-semibold">(832) 409-5633</p>
+                      <p className="text-white font-semibold">(281) 683-0111</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -1431,7 +1431,7 @@ const ContactPage = ({ onBack }: { onBack: () => void }) => {
                         name="phone"
                         type="tel"
                         required
-                        placeholder="(832) 555-0100"
+                        placeholder="(281) 555-0100"
                         value={formData.phone}
                         onChange={handleChange}
                         className="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-aqua/40 focus:border-aqua transition-all"
