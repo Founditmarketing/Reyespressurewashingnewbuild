@@ -1015,25 +1015,37 @@ const GalleryPage = ({ onBack }: { onBack: () => void }) => {
   const currentItems = galleryItems.slice(1 + page * itemsPerPage, 1 + (page + 1) * itemsPerPage);
 
   return (
-    <div className="pt-32 pb-24 min-h-screen bg-slate-50">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <div className="pt-32 pb-24 min-h-screen bg-slate-950 relative overflow-hidden">
+      {/* Background Water Droplet Texture */}
+      <div
+        className="absolute inset-0 opacity-[0.15] mix-blend-screen pointer-events-none"
+        style={{
+          backgroundImage: 'url("/images/water_spray_texture_1772669918002.png")', // Using uploaded texture name, or fallback to radial
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'sepia(100%) hue-rotate(190deg) saturate(300%) brightness(150%)' // tinting light blue
+        }}
+      />
+      <div className="absolute inset-0 bg-fluid-gradient opacity-30 pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div className="max-w-2xl">
             <button
               onClick={onBack}
-              className="group flex items-center gap-2 text-slate-500 hover:text-aqua transition-colors mb-6 text-sm font-semibold tracking-wider uppercase"
+              className="group flex items-center gap-2 text-white/50 hover:text-aqua transition-colors mb-6 text-sm font-semibold tracking-wider uppercase"
             >
               <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
               Back to Home
             </button>
-            <h1 className="text-5xl md:text-7xl mb-6 font-display font-light">Results That <span className="text-aqua font-bold">Speak</span></h1>
-            <p className="text-slate-500 text-lg md:text-xl font-light leading-relaxed">Experience the visible impact of industrial-grade restoration. From residential siding to commercial concrete, we set the standard.</p>
+            <h1 className="text-5xl md:text-7xl mb-6 font-display font-light text-white">Results That <span className="text-aqua font-bold">Speak</span></h1>
+            <p className="text-white/60 text-lg md:text-xl font-light leading-relaxed">Experience the visible impact of industrial-grade restoration. From residential siding to commercial concrete, we set the standard.</p>
           </div>
           <div className="flex items-center gap-4 text-sm font-bold tracking-widest uppercase mb-4">
             <span className="text-aqua">The Portfolio</span>
-            <span className="w-12 h-px bg-slate-200" />
-            <span className="text-slate-400">Restoration Excellence</span>
+            <span className="w-12 h-px bg-white/20" />
+            <span className="text-white/40">Restoration Excellence</span>
           </div>
         </div>
 
@@ -1055,7 +1067,7 @@ const GalleryPage = ({ onBack }: { onBack: () => void }) => {
             <button
               disabled={page === 0}
               onClick={() => { setPage(p => p - 1); document.getElementById('gallery-grid')?.scrollIntoView({ behavior: 'smooth' }); }}
-              className="w-14 h-14 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:border-aqua hover:text-aqua disabled:opacity-30 disabled:hover:border-slate-200 disabled:hover:text-slate-400 transition-all"
+              className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center text-white/50 hover:border-aqua hover:text-aqua disabled:opacity-30 disabled:hover:border-white/20 disabled:hover:text-white/50 transition-all cursor-pointer disabled:cursor-not-allowed"
             >
               <ArrowLeft className="w-6 h-6" />
             </button>
@@ -1063,14 +1075,14 @@ const GalleryPage = ({ onBack }: { onBack: () => void }) => {
               {[...Array(totalPages)].map((_, i) => (
                 <div
                   key={i}
-                  className={`w-2 h-2 rounded-full transition-all ${page === i ? 'w-8 bg-aqua' : 'bg-slate-200'}`}
+                  className={`w-2 h-2 rounded-full transition-all ${page === i ? 'w-8 bg-aqua' : 'bg-white/20'}`}
                 />
               ))}
             </div>
             <button
               disabled={page === totalPages - 1}
-              onClick={() => { setPage(p => p + 1); window.scrollTo({ top: 600, behavior: 'smooth' }); }}
-              className="w-14 h-14 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:border-aqua hover:text-aqua disabled:opacity-30 disabled:hover:border-slate-200 disabled:hover:text-slate-400 transition-all"
+              onClick={() => { setPage(p => p + 1); document.getElementById('gallery-grid')?.scrollIntoView({ behavior: 'smooth' }); }}
+              className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center text-white/50 hover:border-aqua hover:text-aqua disabled:opacity-30 disabled:hover:border-white/20 disabled:hover:text-white/50 transition-all cursor-pointer disabled:cursor-not-allowed"
             >
               <ArrowRight className="w-6 h-6" />
             </button>
