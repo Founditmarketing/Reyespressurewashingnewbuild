@@ -680,47 +680,6 @@ const ServicePage = ({ serviceId, onBack }: { serviceId: string, onBack: () => v
   );
 };
 
-const ProjectGallery = () => {
-  const projects = [
-    { title: "Residential House Wash", location: "Crosby, TX", img: "/images/Projects/house-wash-baytown (1).jpg" },
-    { title: "Roof & Concrete Cleaning", location: "Baytown, TX", img: "/images/Projects/roof-house-driveway-cleaning-baytown-tx.jpg" },
-    { title: "Driveway Revitalization", location: "Spring, TX", img: "/images/Projects/house-wash-concrete-cleaning-spring-tx.webp" },
-    { title: "Professional Roof Washing", location: "Pearland, TX", img: "/images/Projects/roof-washing-pearland-1.jpg" },
-    { title: "Concrete Patio Cleaning", location: "League City, TX", img: "/images/Projects/concrete-patio-cleaning-baytown-tx.webp" },
-    { title: "Siding Rejuvenation", location: "Crosby, TX", img: "/images/Projects/siding-washing-baytown-1.jpg" },
-  ];
-
-  return (
-    <section className="section-padding bg-slate-50">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-16">
-          <h2 className="text-4xl md:text-5xl mb-4">Recent <span className="text-aqua">Projects</span></h2>
-          <p className="text-slate-500 font-normal">Real results for real home owners in the Greater Houston area.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -5 }}
-              className="bg-white rounded-3xl overflow-hidden shadow-lg border border-slate-100"
-            >
-              <div className="aspect-[4/3] overflow-hidden">
-                <img src={project.img} alt={project.title} className="w-full h-full object-cover" />
-              </div>
-              <div className="p-8">
-                <p className="text-aqua font-bold text-xs uppercase tracking-widest mb-2">{project.location}</p>
-                <h3 className="text-xl font-bold">{project.title}</h3>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
 
 const OurProcess = ({ onBack }: { onBack: () => void }) => {
   const steps = [
@@ -1573,7 +1532,6 @@ export default function App() {
             <Hero onNavigate={setCurrentPage} />
             <ReyesDifference />
             <Services onSelectService={handleSelectService} />
-            <ProjectGallery />
             <Portfolio />
             <TestimonialsMarquee />
           </motion.div>
