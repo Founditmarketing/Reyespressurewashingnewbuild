@@ -197,7 +197,7 @@ const Hero = ({ onNavigate }: { onNavigate: (page: string) => void }) => {
           initial={{ scale: 1.15 }}
           animate={{ scale: 1 }}
           transition={{ duration: 3, ease: "easeOut" }}
-          src="/images/Projects/concrete-cleaning-crosby-high-school/1-IMG_4584.webp"
+          src="/images/layout/hero-clean.png"
           alt="Concrete Pressure Washing"
           className="w-full h-full object-cover opacity-80 scale-x-[-1]"
           referrerPolicy="no-referrer"
