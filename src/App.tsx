@@ -1450,45 +1450,68 @@ const DifferencePage = ({ onBack }: { onBack: () => void }) => {
   ];
 
   return (
-    <div className="pt-32 pb-24 min-h-screen bg-slate-50">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
-          <div className="max-w-2xl">
-            <button
-              onClick={onBack}
-              className="group flex items-center gap-2 text-slate-500 hover:text-aqua transition-colors mb-6 text-sm font-semibold tracking-wider uppercase"
+    <div className="min-h-screen bg-slate-50">
+      {/* Header Section - Dark Mode with Texture */}
+      <div className="relative bg-slate-950 pt-32 pb-24 overflow-hidden">
+        {/* Water Spray Texture Overlay */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.15 }}
+          transition={{ duration: 1.5 }}
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: 'url("/images/layout/water-texture.png")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'brightness(2) contrast(1.2)'
+          }}
+        />
+
+        {/* Animated Glows */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-aqua/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-deep-blue/20 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3" />
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div className="max-w-2xl">
+              <button
+                onClick={onBack}
+                className="group flex items-center gap-2 text-white/50 hover:text-aqua transition-colors mb-6 text-sm font-semibold tracking-wider uppercase"
+              >
+                <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                Back to Home
+              </button>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-5xl md:text-7xl mb-8 leading-tight font-display font-light text-white"
+              >
+                The <span className="text-aqua font-bold">Reyes</span> Standard.
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-white/60 text-lg md:text-xl leading-relaxed font-light"
+              >
+                We believe every home deserves to look its best. At Reyes Pressure Washing, we don't just provide a service; we provide a total transformation backed by a commitment to uncompromising excellence.
+              </motion.p>
+            </div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3 }}
+              className="flex items-center gap-4 text-sm font-bold tracking-widest uppercase mb-4"
             >
-              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-              Back to Home
-            </button>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-5xl md:text-7xl mb-8 leading-tight font-display font-light"
-            >
-              The <span className="text-aqua font-bold">Reyes</span> Standard.
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-slate-600 text-lg md:text-xl leading-relaxed font-light"
-            >
-              We believe every home deserves to look its best. At Reyes Pressure Washing, we don't just provide a service; we provide a total transformation backed by a commitment to uncompromising excellence.
-            </motion.p>
+              <span className="text-aqua">Commitment to Quality</span>
+              <span className="w-12 h-px bg-white/10" />
+              <span className="text-white/30">Since Day 1</span>
+            </motion.div>
           </div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3 }}
-            className="flex items-center gap-4 text-sm font-bold tracking-widest uppercase mb-4"
-          >
-            <span className="text-aqua">Commitment to Quality</span>
-            <span className="w-12 h-px bg-slate-200" />
-            <span className="text-slate-400">Since Day 1</span>
-          </motion.div>
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-24">
 
         {/* Vision Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
