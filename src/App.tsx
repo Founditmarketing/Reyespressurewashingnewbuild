@@ -1351,9 +1351,10 @@ const ContactPage = ({ onBack }: { onBack: () => void }) => {
                       <MapPin className="w-5 h-5 text-aqua" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold tracking-widest uppercase text-white/40 mb-1">Service Area</p>
-                      <p className="text-white font-semibold">Greater Houston, TX</p>
-                      <p className="text-white/50 text-sm">Baytown, Pearland, Crosby &amp; More</p>
+                      <p className="text-xs font-bold tracking-widest uppercase text-white/40 mb-1">Location</p>
+                      <p className="text-white font-semibold">Reyes Pressure Washing</p>
+                      <p className="text-white/80 text-sm">115 Commerce Ln</p>
+                      <p className="text-white/50 text-sm">Highlands, TX 77562</p>
                     </div>
                   </div>
                 </div>
