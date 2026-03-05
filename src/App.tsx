@@ -387,10 +387,15 @@ const ReyesDifference = () => {
               {points.map((point, idx) => (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: idx * 0.15 }}
+                  initial={{ opacity: 0, x: -150, scale: 0.3, filter: 'blur(15px)' }}
+                  whileInView={{ opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 30,
+                    delay: idx * 0.1
+                  }}
                   className="flex gap-6 items-start group"
                 >
                   <div className="w-16 h-16 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] group-hover:shadow-[0_10px_40px_rgba(0,163,224,0.2)] flex items-center justify-center text-aqua flex-shrink-0 transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6 border border-slate-50">
@@ -407,14 +412,14 @@ const ReyesDifference = () => {
           <div className="relative">
             <div className="before-after-frame aspect-square">
               <img
-                src="/images/services/house-washing.webp"
-                alt="Before and After"
+                src="/images/projects/house-wash-concrete-cleaning-spring-tx.jpg"
+                alt="Before and After Results"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-aqua/10 mix-blend-overlay" />
             </div>
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-aqua/10 rounded-full blur-3xl" />
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-aqua/10 rounded-full blur-3xl opacity-50" />
           </div>
         </div>
       </div>
@@ -1389,8 +1394,8 @@ export default function App() {
             exit={{ opacity: 0 }}
           >
             <Hero onNavigate={setCurrentPage} />
-            <Services onSelectService={handleSelectService} />
             <ReyesDifference />
+            <Services onSelectService={handleSelectService} />
             <ProjectGallery />
             <Portfolio />
             <TestimonialsMarquee />
