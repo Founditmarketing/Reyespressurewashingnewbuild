@@ -22,7 +22,8 @@ import {
   Mail,
   MapPin,
   Send,
-  ChevronDown
+  ChevronDown,
+  Maximize2
 } from "lucide-react";
 import React, { useState, useEffect, useRef, ChangeEvent, FormEvent } from "react";
 
@@ -59,12 +60,12 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
         </div>
 
         <div className="hidden md:flex items-center gap-10">
-          {["Services", "The Difference", "Gallery", "Our Process", "Portfolio"].map((item) => (
+          {["Services", "The Difference", "Our Work", "Our Process", "Portfolio"].map((item) => (
             <a
               key={item}
               href={currentPage === 'home' ? `#${item.toLowerCase().replace(" ", "-")}` : '/'}
               onClick={(e) => {
-                if (item === "Gallery") {
+                if (item === "Our Work") {
                   e.preventDefault();
                   onNavigate('gallery');
                   return;
@@ -109,17 +110,17 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
             className="fixed inset-0 z-40 bg-slate-950/95 backdrop-blur-2xl md:hidden pt-28 pb-8 px-8 flex flex-col justify-between overflow-y-auto"
           >
             <div className="flex flex-col gap-6">
-              {["Services", "The Difference", "Gallery", "Our Process", "Portfolio"].map((item, i) => (
+              {["Services", "The Difference", "Our Work", "Our Process", "Portfolio"].map((item, i) => (
                 <motion.a
                   key={item}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 + i * 0.1, duration: 0.4 }}
-                  href={item === "Gallery" || item === "Our Process" ? "#" : `#${item.toLowerCase().replace(" ", "-")}`}
+                  href={item === "Our Work" || item === "Our Process" ? "#" : `#${item.toLowerCase().replace(" ", "-")}`}
                   className="text-3xl font-display font-light text-white tracking-wide border-b border-white/10 pb-4"
                   onClick={(e) => {
                     setIsMenuOpen(false);
-                    if (item === "Gallery") {
+                    if (item === "Our Work") {
                       e.preventDefault();
                       onNavigate('gallery');
                     } else if (item === "The Difference") {
@@ -864,64 +865,159 @@ const BeforeAfterSlider = ({ beforeImage, afterImage }: { beforeImage: string, a
   );
 };
 
+// New Helper: Interactive Comparison for Vertical Split Images
+const InteractiveBeforeAfter = ({ splitImage }: { splitImage: string }) => {
+  const [sliderPosition, setSliderPosition] = useState(50);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleMove = (clientX: number) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    const percent = Math.max(0, Math.min((x / rect.width) * 100, 100));
+    setSliderPosition(percent);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => { if (isDragging) handleMove(e.clientX); };
+  const handleTouchMove = (e: React.TouchEvent) => { if (isDragging) handleMove(e.touches[0].clientX); };
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-[2.5rem] overflow-hidden cursor-ew-resize group shadow-2xl border-4 border-white shadow-aqua/10"
+      onMouseDown={() => setIsDragging(true)}
+      onMouseUp={() => setIsDragging(false)}
+      onMouseLeave={() => setIsDragging(false)}
+      onMouseMove={handleMouseMove}
+      onTouchStart={() => setIsDragging(true)}
+      onTouchEnd={() => setIsDragging(false)}
+      onTouchMove={handleTouchMove}
+    >
+      {/* After Image (Bottom half of split, cropped/positioned to fill) */}
+      <div className="absolute inset-0 w-full h-full bg-slate-100">
+        <img
+          src={splitImage}
+          alt="After"
+          className="absolute inset-0 w-full h-[200%] object-cover object-bottom"
+        />
+        <div className="absolute top-6 right-6 px-4 py-2 bg-aqua text-white text-[10px] font-bold tracking-[0.2em] uppercase rounded-full z-10">After</div>
+      </div>
+
+      {/* Before Image (Top half of split, clipped horizontally) */}
+      <div
+        className="absolute inset-0 w-full h-full overflow-hidden"
+        style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+      >
+        <img
+          src={splitImage}
+          alt="Before"
+          className="absolute inset-0 w-full h-[200%] object-cover object-top"
+        />
+        <div className="absolute top-6 left-6 px-4 py-2 bg-slate-900 text-white text-[10px] font-bold tracking-[0.2em] uppercase rounded-full z-10">Before</div>
+      </div>
+
+      {/* Handle */}
+      <div
+        className="absolute top-0 bottom-0 w-1 bg-white shadow-lg z-20"
+        style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
+      >
+        <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-10 h-10 bg-white rounded-full shadow-2xl flex items-center justify-center">
+          <div className="flex -space-x-1">
+            <ChevronDown className="w-4 h-4 text-aqua rotate-90" />
+            <ChevronDown className="w-4 h-4 text-aqua -rotate-90" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// New Helper: Card with 3D Flip Animation
+interface GalleryItemProps {
+  item: any;
+  isLarge?: boolean;
+  key?: string | number;
+}
+
+const GalleryFlipCard = ({ item, isLarge }: GalleryItemProps) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  return (
+    <div
+      className={`relative perspective-1000 ${isLarge ? 'md:col-span-2 md:row-span-2 aspect-square md:aspect-auto' : 'aspect-square'}`}
+      onMouseEnter={() => setIsFlipped(true)}
+      onMouseLeave={() => setIsFlipped(false)}
+      onClick={() => window.open(item.image || (item.after || item.before), '_blank')}
+    >
+      <motion.div
+        className="w-full h-full relative preserve-3d transition-all duration-700 ease-out cursor-zoom-in"
+        initial={false}
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+      >
+        {/* Front */}
+        <div className="absolute inset-0 backface-hidden rounded-3xl overflow-hidden shadow-lg border border-slate-100">
+          <img
+            src={item.image || item.after || item.before}
+            alt={item.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent" />
+          <div className="absolute bottom-6 left-6 text-white max-w-[80%]">
+            <h3 className="text-xl font-bold truncate">{item.title}</h3>
+            <p className="text-xs opacity-70 tracking-widest uppercase">{item.location}</p>
+          </div>
+        </div>
+
+        {/* Back */}
+        <div
+          className="absolute inset-0 backface-hidden rounded-3xl overflow-hidden bg-slate-950 p-8 flex flex-col justify-center items-center text-center border-2 border-aqua/30"
+          style={{ transform: 'rotateY(180deg)' }}
+        >
+          <div className="w-12 h-12 rounded-2xl bg-aqua/20 flex items-center justify-center text-aqua mb-6">
+            <Maximize2 className="w-6 h-6" />
+          </div>
+          <h3 className="text-xl text-white font-bold mb-2">{item.title}</h3>
+          <p className="text-white/50 text-sm mb-6 leading-relaxed">{item.description || "Uncompromising quality and professional restoration."}</p>
+          <span className="text-aqua text-[10px] font-bold tracking-[0.3em] uppercase border-b border-aqua pb-1">Click to Expand</span>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
 const GalleryPage = ({ onBack }: { onBack: () => void }) => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [page, setPage] = useState(0);
+  const itemsPerPage = 12;
 
   const galleryItems = [
-    {
-      title: "Driveway Restoration",
-      location: "Baytown, TX",
-      type: "pair",
-      before: "/images/Projects/house-washing-driveway-baytown/house-dribeway-baytown-1.webp",
-      after: "/images/Projects/house-washing-driveway-baytown/house-dribeway-baytown-2.webp"
-    },
-    {
-      title: "Concrete Striping & Cleaning",
-      location: "Crosby, TX",
-      type: "pair",
-      before: "/images/Projects/concrete-cleaning-crosby-high-school/0-IMG_4586.webp",
-      after: "/images/Projects/concrete-cleaning-crosby-high-school/1-IMG_4584.webp"
-    },
-    {
-      title: "Roof Algae Removal",
-      location: "Pearland, TX",
-      type: "single",
-      image: "/images/Projects/roof-washing-pearland-1.jpg",
-      label: "Before & After Split"
-    },
-    {
-      title: "Complete Roof Transformation",
-      location: "Houston, TX",
-      type: "single",
-      image: "/images/Projects/roof-restoration-split.jpg",
-      label: "Total Revitalization"
-    },
-    {
-      title: "Siding Revitalization",
-      location: "Baytown, TX",
-      type: "single",
-      image: "/images/Projects/siding-washing-baytown-1.jpg",
-      label: "Before & After Split"
-    },
-    {
-      title: "Commercial Storage Cleaning",
-      location: "Houston, TX",
-      type: "single",
-      image: "/images/Projects/storage-facility-cleaning-1.jpg",
-      label: "Before & After Split"
-    },
-    {
-      title: "Stone Wall Cleaning",
-      location: "Mont Belvieu, TX",
-      type: "single",
-      image: "/images/Projects/concrete-cleaning-mont-belvieu-2.jpg",
-      label: "Before & After Split"
-    }
+    // Featured Splitting Image
+    { id: 'roof-hero', type: 'interactive', splitImage: "/images/Projects/roof-restoration-split.jpg" },
+
+    // Grid Items
+    { title: "Siding Revitalization", location: "Baytown, TX", image: "/images/Projects/siding-washing-baytown-1.jpg", featured: true },
+    { title: "Driveway Cleaning", location: "Houston, TX", image: "/images/Projects/house-washing-driveway-baytown/house-dribeway-baytown-2.webp" },
+    { title: "Commercial Lot Striping", location: "Crosby, TX", image: "/images/Projects/concrete-cleaning-crosby-high-school/1-IMG_4584.webp" },
+    { title: "Roof Preservation", location: "Pearland, TX", image: "/images/Projects/roof-washing-pearland-1.jpg", featured: true },
+    { title: "Storage Facility Prep", location: "Houston, TX", image: "/images/Projects/storage-facility-cleaning-1.jpg" },
+    { title: "Stone Masonry Wash", location: "Mont Belvieu, TX", image: "/images/Projects/concrete-cleaning-mont-belvieu-2.jpg" },
+    { title: "Spring Curb Appeal", location: "Spring, TX", image: "/images/Projects/house-wash-concrete-cleaning-spring-tx.webp" },
+    { title: "Baytown Roof Restore", location: "Baytown, TX", image: "/images/Projects/roof-washing-baytown.webp" },
+    { title: "Patio Restoration", location: "Baytown, TX", image: "/images/Projects/concrete-patio-cleaning-baytown-tx.webp" },
+    { title: "Concrete Revive", location: "Houston, TX", image: "/images/Projects/concrete-cleaning-baytown-tx.webp" },
+    { title: "Siding Deep Clean", location: "Houston, TX", image: "/images/services/house-washing-houston.jpg" },
+    { title: "Gutter Guard Polish", location: "Houston, TX", image: "/images/services/gutter-cleaning.webp" },
+    { title: "Fence Restoration", location: "Pearland, TX", image: "/images/services/fence-cleaning.webp" },
+    { title: "Sidewalk Safety Wash", location: "Houston, TX", image: "/images/services/sidewalk-cleaning-houston.jpg" }
   ];
+
+  const totalPages = Math.ceil((galleryItems.length - 1) / itemsPerPage);
+  const currentItems = galleryItems.slice(1 + page * itemsPerPage, 1 + (page + 1) * itemsPerPage);
 
   return (
     <div className="pt-32 pb-24 min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
+        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div className="max-w-2xl">
             <button
@@ -931,89 +1027,56 @@ const GalleryPage = ({ onBack }: { onBack: () => void }) => {
               <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
               Back to Home
             </button>
-            <h1 className="text-5xl md:text-6xl mb-6">Results That <span className="text-aqua">Speak</span></h1>
-            <p className="text-slate-500 text-lg">Browse our latest projects and see the massive difference professional exterior care makes for your property.</p>
+            <h1 className="text-5xl md:text-7xl mb-6 font-display font-light">Results That <span className="text-aqua font-bold">Speak</span></h1>
+            <p className="text-slate-500 text-lg md:text-xl font-light leading-relaxed">Experience the visible impact of industrial-grade restoration. From residential siding to commercial concrete, we set the standard.</p>
           </div>
-          <div className="flex items-center gap-4 text-sm font-bold tracking-widest uppercase">
-            <span className="text-aqua">Professional Results</span>
+          <div className="flex items-center gap-4 text-sm font-bold tracking-widest uppercase mb-4">
+            <span className="text-aqua">The Portfolio</span>
             <span className="w-12 h-px bg-slate-200" />
-            <span className="text-slate-400">Guaranteed</span>
+            <span className="text-slate-400">Restoration Excellence</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-16">
-          {galleryItems.map((item, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="flex flex-col gap-6"
-            >
-              <div className="flex items-center justify-between border-b border-slate-200 pb-4">
-                <div>
-                  <h3 className="text-2xl font-display font-bold text-slate-900">{item.title}</h3>
-                  <p className="text-slate-500">{item.location}</p>
-                </div>
-                {item.type === 'single' && (
-                  <span className="px-3 py-1 bg-aqua/10 text-aqua text-xs font-bold tracking-widest uppercase rounded-full">
-                    {item.label}
-                  </span>
-                )}
-              </div>
+        {/* First Image: Interactive Split */}
+        <div className="mb-20">
+          <InteractiveBeforeAfter splitImage={galleryItems[0].splitImage} />
+        </div>
 
-              <div className="gallery-comparison-grid grid grid-cols-1 gap-8">
-                {item.type === 'pair' ? (
-                  <div className="relative group w-full">
-                    <BeforeAfterSlider beforeImage={item.before!} afterImage={item.after!} />
-                  </div>
-                ) : (
-                  <div className="md:col-span-2 relative group">
-                    <div className="p-3 bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-slate-100 transition-all duration-500 group-hover:scale-[1.01] group-hover:shadow-[0_40px_80px_rgba(0,0,0,0.15)]">
-                      <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden cursor-zoom-in" onClick={() => setSelectedImage(item.image)}>
-                        <img src={item.image} className="w-full h-full object-cover" alt="Project Result" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        <div className="absolute bottom-6 left-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">
-                          <p className="text-sm font-bold tracking-widest uppercase mb-1">Detailed View</p>
-                          <p className="text-white/80">Click to expand to full screen</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </motion.div>
+        {/* Collage Grid */}
+        <div id="gallery-grid" className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+          {currentItems.map((item, idx) => (
+            <GalleryFlipCard key={item.title || idx} item={item} isLarge={item.featured} />
           ))}
         </div>
-      </div>
 
-      <AnimatePresence>
-        {selectedImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-12"
-            onClick={() => setSelectedImage(null)}
-          >
-            <motion.button
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute top-8 right-8 text-white hover:text-aqua transition-colors"
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-20 flex justify-center items-center gap-8">
+            <button
+              disabled={page === 0}
+              onClick={() => { setPage(p => p - 1); document.getElementById('gallery-grid')?.scrollIntoView({ behavior: 'smooth' }); }}
+              className="w-14 h-14 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:border-aqua hover:text-aqua disabled:opacity-30 disabled:hover:border-slate-200 disabled:hover:text-slate-400 transition-all"
             >
-              <X className="w-10 h-10" />
-            </motion.button>
-            <motion.img
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              src={selectedImage}
-              className="max-w-full max-h-full rounded-2xl shadow-2xl object-contain border-4 border-white/10"
-              alt="Project Fullscreen"
-            />
-          </motion.div>
+              <ArrowLeft className="w-6 h-6" />
+            </button>
+            <div className="flex gap-2">
+              {[...Array(totalPages)].map((_, i) => (
+                <div
+                  key={i}
+                  className={`w-2 h-2 rounded-full transition-all ${page === i ? 'w-8 bg-aqua' : 'bg-slate-200'}`}
+                />
+              ))}
+            </div>
+            <button
+              disabled={page === totalPages - 1}
+              onClick={() => { setPage(p => p + 1); window.scrollTo({ top: 600, behavior: 'smooth' }); }}
+              className="w-14 h-14 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:border-aqua hover:text-aqua disabled:opacity-30 disabled:hover:border-slate-200 disabled:hover:text-slate-400 transition-all"
+            >
+              <ArrowRight className="w-6 h-6" />
+            </button>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   );
 };
@@ -1135,7 +1198,7 @@ const Footer = ({ onNavigate }: { onNavigate?: (page: string) => void }) => {
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('home'); }}>About Us</a></li>
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('home'); }}>The Difference</a></li>
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('process'); }}>Our Process</a></li>
-              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('gallery'); }}>Before &amp; After Gallery</a></li>
+              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('gallery'); }}>Our Work</a></li>
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('contact'); }}>Contact Us</a></li>
             </ul>
           </div>
