@@ -1300,13 +1300,93 @@ export default function App() {
     setCurrentPage('service-detail');
   };
 
+  const BlastLoader = ({ onComplete }: { onComplete: () => void }) => {
+    return (
+      <motion.div
+        initial={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 1, delay: 0.5 }}
+        className="fixed inset-0 z-[100] bg-slate-950 overflow-hidden flex items-center justify-center"
+      >
+        {/* Grimy Glass Background */}
+        <div
+          className="absolute inset-0 opacity-100"
+          style={{
+            backgroundImage: 'url("/images/layout/grimy-glass.png")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        />
+
+        {/* The "Blast" revealed content */}
+        <motion.div
+          initial={{ clipPath: 'circle(0% at 50% 50%)' }}
+          animate={{ clipPath: 'circle(150% at 50% 50%)' }}
+          transition={{
+            duration: 2.5,
+            ease: [0.76, 0, 0.24, 1],
+            delay: 0.8
+          }}
+          className="absolute inset-0 z-10"
+          onAnimationComplete={onComplete}
+        >
+          {/* We show a blurred version of the hero or just a clean 'reveal' layer */}
+          <div className="absolute inset-0 bg-aqua/20 backdrop-blur-3xl" />
+
+          {/* Animated Water Streaks / Mist during blast */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: [0, 1, 0], scale: [0.8, 1.2, 1.5] }}
+            transition={{ duration: 2, times: [0, 0.2, 1], delay: 0.8 }}
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage: 'url("/images/layout/water-texture.png")',
+              backgroundSize: 'cover'
+            }}
+          />
+        </motion.div>
+
+        {/* Central Nozzle Glow */}
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: [0, 1.5, 0], opacity: [0, 1, 0] }}
+          transition={{ duration: 1.5, delay: 0.8 }}
+          className="relative z-20 w-32 h-32 bg-aqua rounded-full blur-3xl"
+        />
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="relative z-30 text-center"
+        >
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <Droplets className="w-12 h-12 text-aqua animate-pulse" />
+            <h2 className="text-4xl md:text-6xl text-white font-display font-light tracking-widest uppercase">
+              Reyes <span className="font-bold">Premium</span>
+            </h2>
+          </div>
+          <p className="text-white/40 tracking-[0.3em] uppercase text-xs">Initializing Revitalization...</p>
+        </motion.div>
+      </motion.div>
+    );
+  };
+
   const handleBack = () => {
     setCurrentPage('home');
     setSelectedService(null);
   };
 
+  const [showIntro, setShowIntro] = useState(true);
+
   return (
     <main className="bg-white">
+      <AnimatePresence>
+        {showIntro && (
+          <BlastLoader onComplete={() => setShowIntro(false)} />
+        )}
+      </AnimatePresence>
+
       <Navbar onNavigate={setCurrentPage} currentPage={currentPage} />
       <AnimatePresence mode="wait">
         {currentPage === 'home' ? (
