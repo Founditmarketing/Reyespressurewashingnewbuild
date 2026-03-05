@@ -419,7 +419,7 @@ const ReyesDifference = () => {
               className="absolute top-0 left-0 w-[85%] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl z-10"
             >
               <img
-                src="/images/projects/house-wash-concrete-cleaning-spring-tx.jpg"
+                src="/images/Projects/house-wash-concrete-cleaning-spring-tx.jpg"
                 alt="Premium House Wash Results"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -436,7 +436,7 @@ const ReyesDifference = () => {
               className="absolute bottom-0 right-0 w-[60%] aspect-square rounded-3xl overflow-hidden shadow-2xl z-20 border-8 border-white"
             >
               <img
-                src="/images/projects/house-and-concrete-baytown (2).jpg"
+                src="/images/Projects/house-and-concrete-baytown (2).jpg"
                 alt="Detailed Surface Cleaning"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
