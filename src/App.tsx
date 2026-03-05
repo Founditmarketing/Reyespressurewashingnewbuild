@@ -301,7 +301,7 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
     }
   ];
 
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(2);
   const isDragging = useRef(false);
   const x = useMotionValue(0);
 
