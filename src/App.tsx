@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useMotionValue } from "motion/react";
 import {
   Droplets,
   ShieldCheck,
@@ -301,23 +301,46 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
     }
   ];
 
-  const [width, setWidth] = useState(0);
-  const carousel = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState(0);
+  const isDragging = useRef(false);
+  const x = useMotionValue(0);
 
-  useEffect(() => {
-    if (carousel.current) {
-      setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
+  // Constants for layout
+  const CARD_WIDTH = 400;
+  const GAP = 32;
+
+  const handleDragStart = () => {
+    isDragging.current = false;
+  };
+
+  const handleDrag = () => {
+    isDragging.current = true;
+  };
+
+  const handleDragEnd = (_: any, info: any) => {
+    const dragOffset = info.offset.x;
+    const dragVelocity = info.velocity.x;
+
+    if (dragOffset < -100 || dragVelocity < -500) {
+      setIndex((prev) => Math.min(prev + 1, services.length - 1));
+    } else if (dragOffset > 100 || dragVelocity > 500) {
+      setIndex((prev) => Math.max(prev - 1, 0));
     }
-  }, []);
+
+    // Reset dragging flag after a short delay
+    setTimeout(() => {
+      isDragging.current = false;
+    }, 50);
+  };
 
   return (
-    <section id="services" className="section-padding bg-slate-950 relative overflow-hidden">
+    <section id="services" className="section-padding bg-slate-950 relative overflow-hidden py-32">
       {/* Premium Background Accents */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-aqua/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 opacity-30" />
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-deep-blue/20 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 opacity-30" />
 
-      <div className="max-w-[1400px] mx-auto relative z-10 px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+      <div className="max-w-7xl mx-auto relative z-10 px-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <div className="max-w-2xl">
             <motion.span
               initial={{ opacity: 0, x: -20 }}
@@ -341,35 +364,59 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="flex items-center gap-4 text-white/30 text-sm font-medium"
+            className="flex items-center gap-6"
           >
-            <span>Drag to Explore</span>
-            <div className="w-12 h-[2px] bg-white/10 relative overflow-hidden">
-              <motion.div
-                animate={{ x: [-48, 48] }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                className="absolute inset-0 bg-aqua/40"
-              />
+            <div className="flex gap-2">
+              {services.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setIndex(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-500 ${index === idx ? "w-8 bg-aqua" : "w-1.5 bg-white/20 hover:bg-white/40"
+                    }`}
+                />
+              ))}
+            </div>
+            <div className="flex items-center gap-4 text-white/30 text-sm font-medium">
+              <span>Swipe to Explore</span>
+              <div className="w-12 h-[2px] bg-white/10 relative overflow-hidden">
+                <motion.div
+                  animate={{ x: [-48, 48] }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+                  className="absolute inset-0 bg-aqua/40"
+                />
+              </div>
             </div>
           </motion.div>
         </div>
+      </div>
 
+      <div className="relative h-[600px] flex items-center overflow-hidden">
         <motion.div
-          ref={carousel}
-          className="cursor-grab active:cursor-grabbing overflow-hidden"
+          drag="x"
+          onDragStart={handleDragStart}
+          onDrag={handleDrag}
+          onDragEnd={handleDragEnd}
+          animate={{ x: `calc(50% - ${(index * (CARD_WIDTH + GAP)) + (CARD_WIDTH / 2)}px)` }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          style={{ x }}
+          className="flex gap-8 px-12 touch-none cursor-grab active:cursor-grabbing"
         >
-          <motion.div
-            drag="x"
-            dragConstraints={{ right: 0, left: -width }}
-            className="flex gap-8"
-          >
-            {services.map((service, idx) => (
+          {services.map((service, idx) => {
+            const isActive = index === idx;
+            return (
               <motion.div
                 key={idx}
-                className="min-w-[320px] md:min-w-[400px] group relative bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-white/10 p-4 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20 flex flex-col h-[500px]"
-                onClick={() => onSelectService(service.id)}
+                animate={{
+                  scale: isActive ? 1 : 0.85,
+                  opacity: isActive ? 1 : 0.4,
+                }}
+                transition={{ duration: 0.5 }}
+                className="min-w-[320px] md:min-w-[400px] group relative bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-white/10 p-4 hover:bg-white/[0.08] hover:border-white/20 flex flex-col h-[520px] shadow-2xl transition-colors"
+                onClick={() => {
+                  if (!isDragging.current) onSelectService(service.id);
+                }}
               >
-                <div className="relative h-[240px] rounded-[2rem] overflow-hidden mb-8">
+                <div className="relative h-[260px] rounded-[2rem] overflow-hidden mb-8">
                   <img
                     src={service.image}
                     alt={service.title}
@@ -383,7 +430,7 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
                 </div>
 
                 <div className="px-4 flex-1 flex flex-col">
-                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-aqua transition-colors">
+                  <h3 className={`text-2xl font-bold mb-4 transition-colors ${isActive ? 'text-white group-hover:text-aqua' : 'text-white/60'}`}>
                     {service.title}
                   </h3>
                   <p className="text-white/40 text-[15px] leading-relaxed mb-8 line-clamp-3">
@@ -391,17 +438,17 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
                   </p>
 
                   <div className="mt-auto pb-4 flex items-center justify-between">
-                    <span className="text-aqua font-bold text-xs uppercase tracking-widest flex items-center gap-2">
+                    <span className={`font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-colors ${isActive ? 'text-aqua' : 'text-white/20'}`}>
                       Explore Service <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </span>
-                    <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/20 group-hover:border-aqua/40 group-hover:text-aqua transition-all">
+                    <div className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${isActive ? 'border-white/10 text-white/20 group-hover:border-aqua/40 group-hover:text-aqua' : 'border-white/5 text-white/10'}`}>
                       <ArrowRight className="w-4 h-4" />
                     </div>
                   </div>
                 </div>
               </motion.div>
-            ))}
-          </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>
