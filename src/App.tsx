@@ -60,7 +60,7 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
         </div>
 
         <div className="hidden md:flex items-center gap-10">
-          {["Services", "The Difference", "Our Work", "Our Process", "Portfolio"].map((item) => (
+          {["Services", "The Difference", "Our Work", "Our Process"].map((item) => (
             <a
               key={item}
               href={currentPage === 'home' ? `#${item.toLowerCase().replace(" ", "-")}` : '/'}
@@ -110,7 +110,7 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
             className="fixed inset-0 z-40 bg-slate-950/95 backdrop-blur-2xl md:hidden pt-28 pb-8 px-8 flex flex-col justify-between overflow-y-auto"
           >
             <div className="flex flex-col gap-6">
-              {["Services", "The Difference", "Our Work", "Our Process", "Portfolio"].map((item, i) => (
+              {["Services", "The Difference", "Our Work", "Our Process"].map((item, i) => (
                 <motion.a
                   key={item}
                   initial={{ opacity: 0, x: -20 }}
@@ -1057,7 +1057,7 @@ const GalleryPage = ({ onBack }: { onBack: () => void }) => {
             <p className="text-white/60 text-lg md:text-xl font-light leading-relaxed">Experience the visible impact of industrial-grade restoration. From residential siding to commercial concrete, we set the standard.</p>
           </div>
           <div className="flex items-center gap-4 text-sm font-bold tracking-widest uppercase mb-4">
-            <span className="text-aqua">The Portfolio</span>
+            <span className="text-aqua">Our Work</span>
             <span className="w-12 h-px bg-white/20" />
             <span className="text-white/40">Restoration Excellence</span>
           </div>
@@ -1282,23 +1282,35 @@ const ContactPage = ({ onBack }: { onBack: () => void }) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-32 pb-24">
+    <div className="min-h-screen bg-slate-950 relative overflow-hidden pt-32 pb-24">
+      {/* Background Water Droplet Texture */}
+      <div
+        className="absolute inset-0 opacity-[0.15] mix-blend-screen pointer-events-none"
+        style={{
+          backgroundImage: 'url("/images/water_spray_texture_1772669918002.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'sepia(100%) hue-rotate(190deg) saturate(300%) brightness(150%)'
+        }}
+      />
+      <div className="absolute inset-0 bg-fluid-gradient opacity-30 pointer-events-none" />
+
       {/* Hero Banner */}
-      <div className="relative mb-16 overflow-hidden">
+      <div className="relative mb-16 overflow-hidden z-10">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <button
             onClick={onBack}
-            className="group flex items-center gap-2 text-slate-500 hover:text-aqua transition-colors mb-10 text-sm font-semibold tracking-wider uppercase"
+            className="group flex items-center gap-2 text-white/50 hover:text-aqua transition-colors mb-10 text-sm font-semibold tracking-wider uppercase"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
             Back to Home
           </button>
           <div className="text-center max-w-3xl mx-auto">
             <span className="inline-block text-aqua font-bold tracking-[0.2em] uppercase text-xs mb-4">Free Estimate</span>
-            <h1 className="text-5xl md:text-7xl mb-6">
+            <h1 className="text-5xl md:text-7xl mb-6 text-white">
               Let's <span className="text-aqua">Transform</span> Your Property
             </h1>
-            <p className="text-slate-500 text-xl leading-relaxed">
+            <p className="text-white/60 text-xl leading-relaxed">
               Fill out the form below and our team will reach out within 24 hours with a tailored estimate.
             </p>
           </div>
@@ -1842,7 +1854,6 @@ export default function App() {
             <Hero onNavigate={setCurrentPage} />
             <ReyesDifference onLearnMore={() => setCurrentPage('difference-page')} />
             <Services onSelectService={handleSelectService} />
-            <Portfolio />
             <TestimonialsMarquee />
           </motion.div>
         ) : currentPage === 'gallery' ? (
