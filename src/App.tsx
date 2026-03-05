@@ -396,7 +396,7 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
           onDragStart={handleDragStart}
           onDrag={handleDrag}
           onDragEnd={handleDragEnd}
-          animate={{ x: `calc(50% - ${(index * (CARD_WIDTH + GAP)) + (CARD_WIDTH / 2)}px)` }}
+          animate={{ x: `calc(50vw - ${(index * (CARD_WIDTH + GAP)) + (CARD_WIDTH / 2)}px)` }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           style={{ x }}
           className="flex gap-8 touch-none cursor-grab active:cursor-grabbing"
@@ -411,7 +411,7 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
                   opacity: isActive ? 1 : 0.4,
                 }}
                 transition={{ duration: 0.5 }}
-                className="min-w-[320px] md:min-w-[400px] group relative bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-white/10 p-4 hover:bg-white/[0.08] hover:border-white/20 flex flex-col h-[520px] shadow-2xl transition-colors"
+                className="w-[320px] md:w-[400px] flex-shrink-0 group relative bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-white/10 p-4 hover:bg-white/[0.08] hover:border-white/20 flex flex-col h-[520px] shadow-2xl transition-colors"
                 onClick={() => {
                   if (!isDragging.current) onSelectService(service.id);
                 }}
