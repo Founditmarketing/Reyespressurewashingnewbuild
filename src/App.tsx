@@ -399,7 +399,7 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
           animate={{ x: `calc(50% - ${(index * (CARD_WIDTH + GAP)) + (CARD_WIDTH / 2)}px)` }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           style={{ x }}
-          className="flex gap-8 px-12 touch-none cursor-grab active:cursor-grabbing"
+          className="flex gap-8 touch-none cursor-grab active:cursor-grabbing"
         >
           {services.map((service, idx) => {
             const isActive = index === idx;
@@ -593,32 +593,53 @@ const ServicePage = ({ serviceId, onBack }: { serviceId: string, onBack: () => v
       exit={{ opacity: 0 }}
       className="bg-white min-h-screen pt-32 pb-24"
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+      <div className="max-w-5xl mx-auto px-6 md:px-12">
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-slate-500 hover:text-aqua transition-colors mb-12 group"
+          className="flex items-center gap-2 text-slate-500 hover:text-aqua transition-colors mb-16 group"
         >
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
           <span className="text-xs font-bold tracking-widest uppercase">Back to Services</span>
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-20">
-          <div>
-            <span className="text-aqua font-bold tracking-[0.2em] uppercase text-xs mb-4 block">{service.subtitle}</span>
-            <h1 className="text-4xl md:text-6xl mb-8">{service.title}</h1>
-            <p className="text-lg text-slate-600 leading-relaxed mb-10">
-              {service.description}
-            </p>
-            <button className="premium-button">Request a Quote</button>
-          </div>
-          <div className="rounded-3xl overflow-hidden shadow-2xl aspect-[4/3]">
+        <div className="flex flex-col items-center text-center mb-20">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-aqua font-bold tracking-[0.3em] uppercase text-xs mb-6 block"
+          >
+            {service.subtitle}
+          </motion.span>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-6xl mb-8 max-w-3xl leading-tight"
+          >
+            {service.title}
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg text-slate-600 leading-relaxed mb-12 max-w-2xl"
+          >
+            {service.description}
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            className="w-full rounded-[2.5rem] overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] aspect-video mb-20"
+          >
             <img
               src={service.heroImage}
               alt={service.title}
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
             />
-          </div>
+          </motion.div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
