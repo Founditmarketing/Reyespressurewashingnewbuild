@@ -725,23 +725,37 @@ const OurProcess = ({ onBack }: { onBack: () => void }) => {
   ];
 
   return (
-    <div className="pt-32 pb-24 min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-20">
+    <div className="pt-32 pb-24 min-h-screen bg-white relative">
+      {/* Dark Header Section */}
+      <div className="bg-slate-950 absolute top-0 left-0 right-0 h-[600px] z-0 rounded-b-[4rem] overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.15] mix-blend-screen pointer-events-none"
+          style={{
+            backgroundImage: 'url("/images/water_spray_texture_1772669918002.png")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'sepia(100%) hue-rotate(190deg) saturate(300%) brightness(150%)'
+          }}
+        />
+        <div className="absolute inset-0 bg-fluid-gradient opacity-30 pointer-events-none" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-32">
           <button
             onClick={onBack}
-            className="group flex items-center gap-2 text-slate-500 hover:text-aqua transition-colors mb-8 text-sm font-semibold tracking-wider uppercase"
+            className="group flex items-center gap-2 text-white/50 hover:text-aqua transition-colors mb-8 text-sm font-semibold tracking-wider uppercase"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
             Back to Home
           </button>
-          <h1 className="text-5xl md:text-7xl mb-8">The <span className="text-aqua">Science</span> of Clean</h1>
-          <p className="text-slate-500 text-xl leading-relaxed">
+          <h1 className="text-5xl md:text-7xl mb-8 text-white">The <span className="text-aqua">Science</span> of Clean</h1>
+          <p className="text-white/60 text-xl leading-relaxed">
             Professional exterior care is more than just water and pressure. It's a calculated, three-pillar process designed to protect your property while delivering breathtaking results.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-12 lg:gap-24">
+        <div className="grid grid-cols-1 gap-12 lg:gap-24 -mt-20">
           {steps.map((step, idx) => (
             <motion.div
               key={step.id}
@@ -752,12 +766,12 @@ const OurProcess = ({ onBack }: { onBack: () => void }) => {
             >
               <div className="flex-1 space-y-8">
                 <div className="flex items-center gap-4">
-                  <span className="text-6xl font-display font-bold text-slate-100">{step.id}</span>
+                  <span className={`text-6xl font-display font-bold ${idx === 0 ? 'text-white' : 'text-slate-100'}`}>{step.id}</span>
                   <div className="w-12 h-px bg-aqua/30" />
                   <span className="text-xs font-bold tracking-[0.2em] uppercase text-aqua">{step.phase}</span>
                 </div>
-                <h2 className="text-4xl font-display font-bold text-slate-900 leading-tight">{step.title}</h2>
-                <p className="text-slate-500 text-lg leading-relaxed">{step.description}</p>
+                <h2 className={`text-4xl font-display font-bold leading-tight ${idx === 0 ? 'text-white' : 'text-slate-900'}`}>{step.title}</h2>
+                <p className={`text-lg leading-relaxed ${idx === 0 ? 'text-white/80' : 'text-slate-500'}`}>{step.description}</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
                   {step.items.map((item) => (
                     <div key={item} className="flex items-center gap-3">
