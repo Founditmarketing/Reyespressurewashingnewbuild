@@ -409,17 +409,43 @@ const ReyesDifference = () => {
               ))}
             </div>
           </div>
-          <div className="relative">
-            <div className="before-after-frame aspect-square">
+          <div className="relative h-[500px] md:h-[600px]">
+            {/* Main Image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="absolute top-0 left-0 w-[85%] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl z-10"
+            >
               <img
                 src="/images/projects/house-wash-concrete-cleaning-spring-tx.jpg"
-                alt="Before and After Results"
+                alt="Premium House Wash Results"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-aqua/10 mix-blend-overlay" />
-            </div>
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-aqua/10 rounded-full blur-3xl opacity-50" />
+              <div className="absolute inset-0 bg-aqua/5 mix-blend-overlay" />
+            </motion.div>
+
+            {/* Layered/Offset Image */}
+            <motion.div
+              initial={{ opacity: 0, x: 50, y: 50 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="absolute bottom-0 right-0 w-[60%] aspect-square rounded-3xl overflow-hidden shadow-2xl z-20 border-8 border-white"
+            >
+              <img
+                src="/images/projects/house-and-concrete-baytown (2).jpg"
+                alt="Detailed Surface Cleaning"
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </motion.div>
+
+            {/* Decorative Elements */}
+            <div className="absolute -top-10 -right-10 w-64 h-64 bg-aqua/10 rounded-full blur-3xl opacity-50 -z-10" />
+            <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-aqua/5 rounded-full blur-2xl opacity-30 -z-10" />
           </div>
         </div>
       </div>
