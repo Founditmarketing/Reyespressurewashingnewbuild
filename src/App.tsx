@@ -301,13 +301,35 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
     }
   ];
 
-  const [index, setIndex] = useState(2);
+  const infiniteServices = [...services, ...services, ...services];
+  const [index, setIndex] = useState(services.length + 2); // Start in the middle set
+  const [isTeleporting, setIsTeleporting] = useState(false);
   const isDragging = useRef(false);
   const x = useMotionValue(0);
 
   // Constants for layout
   const CARD_WIDTH = 400;
   const GAP = 32;
+
+  // Handle seamless looping
+  useEffect(() => {
+    // If we reach the end of the third set or start of the first set, jump back to middle set
+    if (index >= services.length * 2) {
+      const timer = setTimeout(() => {
+        setIsTeleporting(true);
+        setIndex(index - services.length);
+        setTimeout(() => setIsTeleporting(false), 50);
+      }, 500);
+      return () => clearTimeout(timer);
+    } else if (index < services.length) {
+      const timer = setTimeout(() => {
+        setIsTeleporting(true);
+        setIndex(index + services.length);
+        setTimeout(() => setIsTeleporting(false), 50);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [index, services.length]);
 
   const handleDragStart = () => {
     isDragging.current = false;
@@ -322,9 +344,9 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
     const dragVelocity = info.velocity.x;
 
     if (dragOffset < -100 || dragVelocity < -500) {
-      setIndex((prev) => Math.min(prev + 1, services.length - 1));
+      setIndex((prev) => prev + 1);
     } else if (dragOffset > 100 || dragVelocity > 500) {
-      setIndex((prev) => Math.max(prev - 1, 0));
+      setIndex((prev) => prev - 1);
     }
 
     // Reset dragging flag after a short delay
@@ -370,8 +392,8 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
               {services.map((_, idx) => (
                 <button
                   key={idx}
-                  onClick={() => setIndex(idx)}
-                  className={`h-1.5 rounded-full transition-all duration-500 ${index === idx ? "w-8 bg-aqua" : "w-1.5 bg-white/20 hover:bg-white/40"
+                  onClick={() => setIndex(services.length + idx)}
+                  className={`h-1.5 rounded-full transition-all duration-500 ${index % services.length === idx ? "w-8 bg-aqua" : "w-1.5 bg-white/20 hover:bg-white/40"
                     }`}
                 />
               ))}
@@ -397,11 +419,11 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
           onDrag={handleDrag}
           onDragEnd={handleDragEnd}
           animate={{ x: `calc(50vw - ${(index * (CARD_WIDTH + GAP)) + (CARD_WIDTH / 2)}px)` }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          transition={isTeleporting ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 }}
           style={{ x }}
           className="flex gap-8 touch-none cursor-grab active:cursor-grabbing"
         >
-          {services.map((service, idx) => {
+          {infiniteServices.map((service, idx) => {
             const isActive = index === idx;
             return (
               <motion.div
@@ -410,7 +432,7 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
                   scale: isActive ? 1 : 0.85,
                   opacity: isActive ? 1 : 0.4,
                 }}
-                transition={{ duration: 0.5 }}
+                transition={isTeleporting ? { duration: 0 } : { duration: 0.5 }}
                 className="w-[320px] md:w-[400px] flex-shrink-0 group relative bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-white/10 p-4 hover:bg-white/[0.08] hover:border-white/20 flex flex-col h-[520px] shadow-2xl transition-colors"
                 onClick={() => {
                   if (!isDragging.current) onSelectService(service.id);
