@@ -1,4 +1,4 @@
-import { motion, AnimatePresence, useMotionValue } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Droplets,
   ShieldCheck,
@@ -37,14 +37,7 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => { document.body.style.overflow = 'unset'; };
-  }, [isMenuOpen]);
+
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? "glass-nav py-4" : "bg-white/10 backdrop-blur-md py-8 border-b border-white/10"}`}>
@@ -107,17 +100,17 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-40 bg-slate-950/95 backdrop-blur-2xl md:hidden pt-28 pb-8 px-8 flex flex-col justify-between overflow-y-auto"
+            className="absolute top-[100%] left-4 right-4 mt-2 bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-2xl md:hidden p-6 flex flex-col shadow-2xl origin-top z-40 max-h-[85vh] overflow-y-auto"
           >
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4">
               {["Services", "The Difference", "Our Work", "Our Process"].map((item, i) => (
                 <motion.a
                   key={item}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 + i * 0.1, duration: 0.4 }}
+                  transition={{ delay: i * 0.05, duration: 0.2 }}
                   href={item === "Our Work" || item === "Our Process" ? "#" : `#${item.toLowerCase().replace(" ", "-")}`}
-                  className="text-3xl font-display font-light text-white tracking-wide border-b border-white/10 pb-4"
+                  className="text-xl font-semibold text-white tracking-wide border-b border-white/10 pb-4 last:border-0 last:pb-0"
                   onClick={(e) => {
                     setIsMenuOpen(false);
                     if (item === "Our Work") {
@@ -155,10 +148,10 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
                 </motion.a>
               ))}
               <motion.button
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.4 }}
-                className="premium-button w-full text-lg py-5 mt-4"
+                transition={{ delay: 0.2, duration: 0.2 }}
+                className="premium-button w-full text-lg py-4 mt-2"
                 onClick={() => { setIsMenuOpen(false); onNavigate('contact'); }}
               >
                 Request Quote
@@ -168,28 +161,17 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.4 }}
-              className="mt-12 space-y-8"
+              transition={{ delay: 0.3, duration: 0.2 }}
+              className="mt-8 space-y-4 pt-4 border-t border-white/10"
             >
-              <div className="space-y-4">
-                <a href="tel:1234567890" className="flex items-center gap-4 text-white/70 hover:text-aqua transition-colors text-lg">
-                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <span>(123) 456-7890</span>
-                </a>
-                <a href="mailto:info@reyespremium.com" className="flex items-center gap-4 text-white/70 hover:text-aqua transition-colors text-lg">
-                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <span>info@reyespremium.com</span>
-                </a>
-              </div>
-              <div className="flex gap-4 pt-8 border-t border-white/10">
-                <a href="#" className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-aqua transition-colors"><Instagram className="w-5 h-5" /></a>
-                <a href="#" className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-aqua transition-colors"><Facebook className="w-5 h-5" /></a>
-                <a href="#" className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-aqua transition-colors"><Linkedin className="w-5 h-5" /></a>
-              </div>
+              <a href="tel:2816830111" className="flex items-center gap-3 text-white/70 hover:text-aqua transition-colors text-base">
+                <Phone className="w-4 h-4" />
+                <span>(281) 683-0111</span>
+              </a>
+              <a href="mailto:hello@reyespw.com" className="flex items-center gap-3 text-white/70 hover:text-aqua transition-colors text-base">
+                <Mail className="w-4 h-4" />
+                <span>hello@reyespw.com</span>
+              </a>
             </motion.div>
           </motion.div>
         )}
@@ -310,60 +292,6 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
     }
   ];
 
-  const infiniteServices = [...services, ...services, ...services];
-  const [index, setIndex] = useState(services.length + 2); // Start in the middle set
-  const [isTeleporting, setIsTeleporting] = useState(false);
-  const isDragging = useRef(false);
-  const x = useMotionValue(0);
-
-  // Constants for layout
-  const CARD_WIDTH = 400;
-  const GAP = 32;
-
-  // Handle seamless looping
-  useEffect(() => {
-    // If we reach the end of the third set or start of the first set, jump back to middle set
-    if (index >= services.length * 2) {
-      const timer = setTimeout(() => {
-        setIsTeleporting(true);
-        setIndex(index - services.length);
-        setTimeout(() => setIsTeleporting(false), 50);
-      }, 500);
-      return () => clearTimeout(timer);
-    } else if (index < services.length) {
-      const timer = setTimeout(() => {
-        setIsTeleporting(true);
-        setIndex(index + services.length);
-        setTimeout(() => setIsTeleporting(false), 50);
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, [index, services.length]);
-
-  const handleDragStart = () => {
-    isDragging.current = false;
-  };
-
-  const handleDrag = () => {
-    isDragging.current = true;
-  };
-
-  const handleDragEnd = (_: any, info: any) => {
-    const dragOffset = info.offset.x;
-    const dragVelocity = info.velocity.x;
-
-    if (dragOffset < -100 || dragVelocity < -500) {
-      setIndex((prev) => prev + 1);
-    } else if (dragOffset > 100 || dragVelocity > 500) {
-      setIndex((prev) => prev - 1);
-    }
-
-    // Reset dragging flag after a short delay
-    setTimeout(() => {
-      isDragging.current = false;
-    }, 50);
-  };
-
   return (
     <section id="services" className="section-padding bg-slate-950 relative overflow-hidden py-32">
       {/* Premium Background Accents */}
@@ -371,7 +299,7 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-deep-blue/20 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 opacity-30" />
 
       <div className="max-w-7xl mx-auto relative z-10 px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
           <div className="max-w-2xl">
             <motion.span
               initial={{ opacity: 0, x: -20 }}
@@ -395,92 +323,60 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="flex items-center gap-6"
+            className="flex items-center gap-4 text-white/30 text-sm font-medium"
           >
-            <div className="flex gap-2">
-              {services.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setIndex(services.length + idx)}
-                  className={`h-1.5 rounded-full transition-all duration-500 ${index % services.length === idx ? "w-8 bg-aqua" : "w-1.5 bg-white/20 hover:bg-white/40"
-                    }`}
-                />
-              ))}
-            </div>
-            <div className="flex items-center gap-4 text-white/30 text-sm font-medium">
-              <span>Swipe to Explore</span>
-              <div className="w-12 h-[2px] bg-white/10 relative overflow-hidden">
-                <motion.div
-                  animate={{ x: [-48, 48] }}
-                  transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                  className="absolute inset-0 bg-aqua/40"
-                />
-              </div>
+            <span>Swipe to Explore</span>
+            <div className="w-12 h-[2px] bg-white/10 relative overflow-hidden">
+              <motion.div
+                animate={{ x: [-48, 48] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+                className="absolute inset-0 bg-aqua/40"
+              />
             </div>
           </motion.div>
         </div>
       </div>
 
-      <div className="relative h-[600px] flex items-center overflow-hidden">
-        <motion.div
-          drag="x"
-          onDragStart={handleDragStart}
-          onDrag={handleDrag}
-          onDragEnd={handleDragEnd}
-          animate={{ x: `calc(50vw - ${(index * (CARD_WIDTH + GAP)) + (CARD_WIDTH / 2)}px)` }}
-          transition={isTeleporting ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 }}
-          style={{ x }}
-          className="flex gap-8 touch-none cursor-grab active:cursor-grabbing"
-        >
-          {infiniteServices.map((service, idx) => {
-            const isActive = index === idx;
-            return (
-              <motion.div
-                key={idx}
-                animate={{
-                  scale: isActive ? 1 : 0.85,
-                  opacity: isActive ? 1 : 0.4,
-                }}
-                transition={isTeleporting ? { duration: 0 } : { duration: 0.5 }}
-                className="w-[320px] md:w-[400px] flex-shrink-0 group relative bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-white/10 p-4 hover:bg-white/[0.08] hover:border-white/20 flex flex-col h-[520px] shadow-2xl transition-colors"
-                onClick={() => {
-                  if (!isDragging.current) onSelectService(service.id);
-                }}
-              >
-                <div className="relative h-[260px] rounded-[2rem] overflow-hidden mb-8">
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60" />
-                  <div className="absolute top-6 left-6 w-12 h-12 bg-aqua/90 backdrop-blur-md text-white rounded-2xl flex items-center justify-center shadow-2xl border border-white/20">
-                    {service.icon}
-                  </div>
-                </div>
+      <div className="relative w-full max-w-[100vw] overflow-x-auto snap-x snap-mandatory flex items-center pt-8 pb-16 px-6 md:px-12 xl:px-32 gap-6 scroll-smooth" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+        <style dangerouslySetInnerHTML={{ __html: `::-webkit-scrollbar { display: none; }` }} />
+        {services.map((service, idx) => (
+          <div
+            key={idx}
+            className="w-[85vw] md:w-[400px] shrink-0 snap-center group relative bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-white/10 p-4 hover:bg-white/[0.08] hover:border-white/20 flex flex-col h-[520px] shadow-2xl transition-colors cursor-pointer"
+            onClick={() => onSelectService(service.id)}
+          >
+            <div className="relative h-[260px] rounded-[2rem] overflow-hidden mb-8">
+              <img
+                src={service.image}
+                alt={service.title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60" />
+              <div className="absolute top-6 left-6 w-12 h-12 bg-aqua/90 backdrop-blur-md text-white rounded-2xl flex items-center justify-center shadow-2xl border border-white/20">
+                {service.icon}
+              </div>
+            </div>
 
-                <div className="px-4 flex-1 flex flex-col">
-                  <h3 className={`text-2xl font-bold mb-4 transition-colors ${isActive ? 'text-white group-hover:text-aqua' : 'text-white/60'}`}>
-                    {service.title}
-                  </h3>
-                  <p className="text-white/40 text-[15px] leading-relaxed mb-8 line-clamp-3">
-                    {service.description}
-                  </p>
+            <div className="px-4 flex-1 flex flex-col">
+              <h3 className="text-2xl font-bold mb-4 text-white transition-colors group-hover:text-aqua">
+                {service.title}
+              </h3>
+              <p className="text-white/60 text-[15px] leading-relaxed mb-8 line-clamp-3">
+                {service.description}
+              </p>
 
-                  <div className="mt-auto pb-4 flex items-center justify-between">
-                    <span className={`font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-colors ${isActive ? 'text-aqua' : 'text-white/20'}`}>
-                      Explore Service <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                    <div className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${isActive ? 'border-white/10 text-white/20 group-hover:border-aqua/40 group-hover:text-aqua' : 'border-white/5 text-white/10'}`}>
-                      <ArrowRight className="w-4 h-4" />
-                    </div>
-                  </div>
+              <div className="mt-auto pb-4 flex items-center justify-between">
+                <span className="font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-colors text-white/60 group-hover:text-aqua">
+                  Explore Service <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div className="w-10 h-10 rounded-full border border-white/10 text-white/40 flex items-center justify-center transition-all group-hover:border-aqua/40 group-hover:text-aqua">
+                  <ArrowRight className="w-4 h-4" />
                 </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
