@@ -53,7 +53,7 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
         </div>
 
         <div className="hidden md:flex items-center gap-10">
-          {["Services", "The Difference", "Our Work", "Our Process"].map((item) => (
+          {["Services", "The Difference", "Our Work", "About Us"].map((item) => (
             <a
               key={item}
               href={currentPage === 'home' ? `#${item.toLowerCase().replace(" ", "-")}` : '/'}
@@ -68,9 +68,9 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
                   onNavigate('difference-page');
                   return;
                 }
-                if (item === "Our Process") {
+                if (item === "About Us") {
                   e.preventDefault();
-                  onNavigate('process');
+                  onNavigate('about');
                   return;
                 }
                 if (currentPage !== 'home') {
@@ -103,13 +103,13 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
             className="absolute top-[100%] left-4 right-4 mt-2 bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-2xl md:hidden p-6 flex flex-col shadow-2xl origin-top z-40 max-h-[85vh] overflow-y-auto"
           >
             <div className="flex flex-col gap-4">
-              {["Services", "The Difference", "Our Work", "Our Process"].map((item, i) => (
+              {["Services", "The Difference", "Our Work", "About Us"].map((item, i) => (
                 <motion.a
                   key={item}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05, duration: 0.2 }}
-                  href={item === "Our Work" || item === "Our Process" ? "#" : `#${item.toLowerCase().replace(" ", "-")}`}
+                  href={item === "Our Work" || item === "About Us" ? "#" : `#${item.toLowerCase().replace(" ", "-")}`}
                   className="text-xl font-semibold text-white tracking-wide border-b border-white/10 pb-4 last:border-0 last:pb-0"
                   onClick={(e) => {
                     setIsMenuOpen(false);
@@ -119,9 +119,9 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
                     } else if (item === "The Difference") {
                       e.preventDefault();
                       onNavigate('difference-page');
-                    } else if (item === "Our Process") {
+                    } else if (item === "About Us") {
                       e.preventDefault();
-                      onNavigate('process');
+                      onNavigate('about');
                     } else {
                       if (currentPage !== 'home') {
                         e.preventDefault();
@@ -1149,7 +1149,7 @@ const Footer = ({ onNavigate }: { onNavigate?: (page: string) => void }) => {
           <div>
             <h4 className="text-sm font-bold tracking-widest uppercase mb-8 text-aqua">Company</h4>
             <ul className="space-y-4 text-white/60 text-sm">
-              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('home'); }}>About Us</a></li>
+              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('about'); }}>About Us</a></li>
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('home'); }}>The Difference</a></li>
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('process'); }}>Our Process</a></li>
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('gallery'); }}>Our Work</a></li>
@@ -1664,6 +1664,477 @@ const DifferencePage = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
+const AboutPage = ({ onNavigate }: { onNavigate: (page: string) => void }) => {
+  const stats = [
+    { value: "500+", label: "Properties Restored" },
+    { value: "5★", label: "Average Rating" },
+    { value: "10+", label: "Years in Houston" },
+    { value: "100%", label: "Satisfaction Guaranteed" },
+  ];
+
+  const values = [
+    {
+      title: "Relentless Attention to Detail",
+      desc: "We don't call a job done until every surface — every corner, every seam — has been inspected and approved. The difference is always in the details you can't see until you look for them.",
+      icon: <Sparkles className="w-8 h-8" />,
+      tag: "Our Standard"
+    },
+    {
+      title: "Professional-Grade Equipment",
+      desc: "Our custom-built trailer rigs deliver precise pressure and heat control that consumer-grade units simply can't match, allowing us to tackle the toughest Houston grime safely and efficiently.",
+      icon: <Zap className="w-8 h-8" />,
+      tag: "Our Tools"
+    },
+    {
+      title: "Total Property Protection",
+      desc: "Your landscaping is a multi-thousand dollar investment. We pre-wet vegetation, divert chemical runoff, and use eco-conscious neutralizers so your plants and surfaces are always protected.",
+      icon: <ShieldCheck className="w-8 h-8" />,
+      tag: "Our Promise"
+    },
+    {
+      title: "Transparent Communication",
+      desc: "No surprises. We walk every property before work begins, explain our full process, and confirm your approval before making a single mark. You're always in control.",
+      icon: <TrendingUp className="w-8 h-8" />,
+      tag: "Our Culture"
+    },
+  ];
+
+  const processSteps = [
+    {
+      id: "01",
+      phase: "Precision Prep",
+      title: "Surface Protection & Inspection",
+      description: "Before a single drop of water is sprayed, we perform a comprehensive baseline inspection. This includes identifying specific surface vulnerabilities, securing electrical outlets, and ensuring that all landscaping, pets, and children are safely accounted for. We pride ourselves on property protection above all else.",
+      items: ["Deliberate Area Protection", "Landscaping Shielding", "Electrical Safety Checks", "Material Analysis"],
+      icon: <Shield className="w-8 h-8 text-aqua" />,
+    },
+    {
+      id: "02",
+      phase: "Mastercraft Execution",
+      title: "Advanced Cleaning Technology",
+      description: "We deploy industry-specific methods tailored precisely to your surfaces. Whether it's our professional Soft Wash system for delicate siding and roofs or high-pressure surface cleaning for stubborn driveway stains, we use the right balance of pressure and specialized cleaning compounds to restore your property safely and effectively.",
+      items: ["Tailored Pressure Management", "Soft-Wash Technology", "Specialized Stain Scouring", "Environmentally Conscious Products"],
+      icon: <Zap className="w-8 h-8 text-aqua" />,
+    },
+    {
+      id: "03",
+      phase: "Elite Restoration",
+      title: "Thorough Rinse & Final Detail",
+      description: "Our work isn't done until the entire property is flawless. We perform a deep rinse of all surfaces and surroundings, removing any traces of grime or cleaning agents. A final property inspection ensures that the results meet our elite standards before we declare the job complete.",
+      items: ["Surrounding Area Rinsing", "Safety Perimeter Check", "Final Results Inspection", "Furniture Replacement"],
+      icon: <CheckCircle2 className="w-8 h-8 text-aqua" />,
+    },
+  ];
+
+  const serviceAreas = [
+    "Houston", "Baytown", "Highlands", "Crosby", "Spring", "Pearland",
+    "Mont Belvieu", "Pasadena", "League City", "Deer Park", "La Porte", "Kingwood",
+  ];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-white">
+
+      {/* ── HERO HEADER ── */}
+      <div className="relative bg-slate-950 pt-40 pb-32 overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.12] mix-blend-screen pointer-events-none"
+          style={{
+            backgroundImage: 'url("/images/water_spray_texture_1772669918002.png")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'sepia(100%) hue-rotate(190deg) saturate(300%) brightness(150%)'
+          }}
+        />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-aqua/10 rounded-full blur-[120px] -translate-y-1/3 translate-x-1/3 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-deep-blue/30 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-3 text-aqua font-bold tracking-[0.3em] uppercase text-xs mb-8"
+          >
+            <span className="w-8 h-px bg-aqua" />
+            Our Story
+          </motion.span>
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-5xl md:text-7xl lg:text-8xl font-display font-light text-white leading-[1.05] mb-8 max-w-4xl"
+          >
+            Houston's Most{" "}
+            <span className="text-aqua font-bold">Trusted</span>{" "}
+            Exterior Crew.
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-white/60 text-xl leading-relaxed max-w-2xl font-light"
+          >
+            Reyes Pressure Washing was built on a single belief: every home in the Greater Houston
+            area deserves to look its absolute best. We deliver that — every time, without exception.
+          </motion.p>
+        </div>
+      </div>
+
+      {/* ── STATS BAR ── */}
+      <div className="bg-aqua">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x divide-white/30">
+          {stats.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              className="text-center md:px-8"
+            >
+              <div className="text-4xl md:text-5xl font-display font-bold text-white mb-1">{stat.value}</div>
+              <div className="text-white/80 text-sm font-semibold tracking-widest uppercase">{stat.label}</div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── COMPANY STORY ── */}
+      <section className="section-padding bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            {/* Image Stack */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative h-[520px]"
+            >
+              <div className="absolute top-0 left-0 w-[78%] h-[72%] rounded-[2.5rem] overflow-hidden shadow-2xl z-10">
+                <img
+                  src="/images/Projects/house-wash-concrete-cleaning-spring-tx.jpg"
+                  alt="Reyes Pressure Washing Team"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-aqua/5 mix-blend-overlay" />
+              </div>
+              <div className="absolute bottom-0 right-0 w-[58%] h-[58%] rounded-[2rem] overflow-hidden shadow-2xl z-20 border-8 border-white">
+                <img
+                  src="/images/Projects/concrete-patio-cleaning-baytown-tx.webp"
+                  alt="Professional Pressure Washing Results"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {/* Badge */}
+              <div className="absolute top-6 right-4 z-30 bg-slate-950 text-white rounded-2xl p-5 shadow-2xl text-center border border-white/10">
+                <div className="text-3xl font-display font-bold text-aqua mb-1">10+</div>
+                <div className="text-xs font-bold tracking-widest uppercase text-white/60">Yrs Serving<br/>Houston</div>
+              </div>
+              <div className="absolute -bottom-6 -left-6 w-48 h-48 bg-aqua/8 rounded-full blur-3xl -z-10" />
+            </motion.div>
+
+            {/* Text */}
+            <div>
+              <motion.span
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="text-aqua font-bold tracking-[0.3em] uppercase text-xs mb-6 block"
+              >
+                Who We Are
+              </motion.span>
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-4xl md:text-5xl font-display font-bold leading-tight mb-8"
+              >
+                Built on Quality.<br />
+                <span className="text-aqua">Driven by Pride.</span>
+              </motion.h2>
+              <div className="space-y-5 text-slate-600 text-lg leading-relaxed">
+                <p>
+                  Reyes Pressure Washing started with a simple idea — that homeowners in the greater
+                  Houston area shouldn't have to settle for mediocre results from equipment that
+                  doesn't match the job. We invested in professional-grade rigs and spent years
+                  mastering the science behind soft-wash chemistry, surface PSI requirements, and
+                  eco-responsible runoff management.
+                </p>
+                <p>
+                  Today, we're the crew that Baytown, Highland, Spring, Pearland and dozens of
+                  surrounding communities call when they want it done right. Not just pressure-washed
+                  — <em>revitalized.</em>
+                </p>
+                <p>
+                  We are fully licensed, insured, and carry a satisfaction guarantee on every single job.
+                  If you're not blown away by the results, we'll come back until you are.
+                </p>
+              </div>
+              <div className="mt-10 flex flex-col sm:flex-row gap-4">
+                <button className="premium-button flex items-center gap-2 group w-full sm:w-auto justify-center" onClick={() => onNavigate('contact')}>
+                  Get a Free Estimate <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <a href="tel:+12816830111" className="premium-button-outline flex items-center gap-2 justify-center w-full sm:w-auto">
+                  <Phone className="w-4 h-4" /> (281) 683-0111
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── VALUES PILLARS ── */}
+      <section className="section-padding bg-slate-950 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-aqua/8 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-deep-blue/20 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center max-w-2xl mx-auto mb-20">
+            <motion.span
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-aqua font-bold tracking-[0.3em] uppercase text-xs mb-4 block"
+            >
+              What Drives Us
+            </motion.span>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-6xl text-white leading-tight"
+            >
+              Our Core <span className="text-aqua">Values</span>
+            </motion.h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {values.map((v, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.08 }}
+                className="group p-10 bg-white/5 backdrop-blur-sm rounded-[2rem] border border-white/10 hover:border-aqua/30 hover:bg-white/[0.08] transition-all duration-500"
+              >
+                <div className="flex items-start gap-6">
+                  <div className="w-16 h-16 rounded-2xl bg-aqua/10 flex items-center justify-center text-aqua flex-shrink-0 group-hover:bg-aqua group-hover:text-white transition-all duration-500">
+                    {v.icon}
+                  </div>
+                  <div>
+                    <span className="text-aqua text-[10px] font-bold tracking-[0.25em] uppercase mb-3 block">{v.tag}</span>
+                    <h3 className="text-xl font-bold text-white mb-3">{v.title}</h3>
+                    <p className="text-white/55 leading-relaxed">{v.desc}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── OUR PROCESS ── */}
+      <section className="section-padding bg-white relative">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-24">
+            <motion.span
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-aqua font-bold tracking-[0.3em] uppercase text-xs mb-4 block"
+            >
+              How We Work
+            </motion.span>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-6xl font-display font-bold leading-tight mb-6"
+            >
+              The <span className="text-aqua">Science</span> of Clean
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-slate-500 text-lg leading-relaxed"
+            >
+              Professional exterior care is more than just water and pressure. It's a calculated,
+              three-pillar process designed to protect your property while delivering breathtaking results.
+            </motion.p>
+          </div>
+
+          <div className="space-y-24">
+            {processSteps.map((step, idx) => (
+              <motion.div
+                key={step.id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-24 ${idx % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}
+              >
+                {/* Text Block */}
+                <div className="flex-1 space-y-8">
+                  <div className="flex items-center gap-4">
+                    <span className="text-7xl font-display font-bold text-slate-100 select-none">{step.id}</span>
+                    <div className="w-12 h-px bg-aqua/40" />
+                    <span className="text-xs font-bold tracking-[0.2em] uppercase text-aqua">{step.phase}</span>
+                  </div>
+                  <h3 className="text-3xl md:text-4xl font-display font-bold text-slate-900 leading-tight">{step.title}</h3>
+                  <p className="text-lg text-slate-500 leading-relaxed">{step.description}</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    {step.items.map((item) => (
+                      <div key={item} className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-aqua flex-shrink-0" />
+                        <span className="text-sm font-semibold text-slate-700">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Card Block */}
+                <div className="flex-1 w-full relative">
+                  <div className="absolute -inset-4 bg-aqua/5 rounded-3xl -rotate-1 pointer-events-none" />
+                  <div className="relative bg-slate-950 rounded-3xl p-10 flex flex-col items-center text-center shadow-2xl border border-white/10">
+                    <div className="w-20 h-20 rounded-2xl bg-aqua/10 flex items-center justify-center mb-8">
+                      {step.icon}
+                    </div>
+                    <p className="text-slate-500 text-xs font-bold tracking-widest uppercase mb-2">Pillar {step.id}</p>
+                    <p className="text-2xl font-display font-bold text-white">{step.title}</p>
+                    <div className="mt-8 w-full space-y-3">
+                      {step.items.map((item) => (
+                        <div key={item} className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-3 text-left">
+                          <CheckCircle2 className="w-4 h-4 text-aqua flex-shrink-0" />
+                          <span className="text-sm text-white/70 font-medium">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SERVICE AREA ── */}
+      <section className="section-padding bg-slate-50 relative overflow-hidden">
+        <div className="absolute inset-0 ripple-texture opacity-20 pointer-events-none" />
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <motion.span
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="text-aqua font-bold tracking-[0.3em] uppercase text-xs mb-6 block"
+              >
+                Where We Work
+              </motion.span>
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-4xl md:text-5xl font-display font-bold leading-tight mb-8"
+              >
+                Proudly Serving<br />
+                <span className="text-aqua">Greater Houston</span>
+              </motion.h2>
+              <p className="text-slate-500 text-lg leading-relaxed mb-10">
+                Based in Highlands, TX, our crew covers the entire Greater Houston Metro area.
+                If you're not sure we serve your neighborhood — just call. Chances are we do.
+              </p>
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-aqua/10 flex items-center justify-center flex-shrink-0 mt-1">
+                  <MapPin className="w-5 h-5 text-aqua" />
+                </div>
+                <div>
+                  <p className="font-bold text-slate-800 text-lg">Reyes Pressure Washing</p>
+                  <p className="text-slate-500">115 Commerce Ln, Highlands, TX 77562</p>
+                  <a href="tel:+12816830111" className="text-aqua font-bold mt-1 block hover:text-aqua-dark transition-colors">(281) 683-0111</a>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div className="grid grid-cols-3 gap-3">
+                {serviceAreas.map((area, idx) => (
+                  <motion.div
+                    key={area}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.04 }}
+                    className="group bg-white rounded-2xl px-4 py-4 text-center shadow-sm border border-slate-100 hover:border-aqua/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-default"
+                  >
+                    <div className="w-2 h-2 rounded-full bg-aqua mx-auto mb-2 group-hover:scale-125 transition-transform" />
+                    <span className="text-sm font-semibold text-slate-700 group-hover:text-aqua transition-colors">{area}</span>
+                  </motion.div>
+                ))}
+              </div>
+              <p className="text-center text-slate-400 text-sm mt-6 font-medium">
+                + many more surrounding communities
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CLOSING CTA ── */}
+      <section className="section-padding bg-slate-950 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,163,224,0.15),transparent_60%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(10,25,47,0.5),transparent_60%)] pointer-events-none" />
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-6xl lg:text-7xl font-display font-light text-white leading-[1.05] mb-8"
+          >
+            Ready to Experience<br />
+            the <span className="text-aqua font-bold">Reyes</span> Difference?
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-white/60 text-xl mb-12 leading-relaxed"
+          >
+            Join hundreds of satisfied Houston homeowners who trust Reyes for their property's premium care.
+            Get your free, no-obligation estimate today.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-6"
+          >
+            <button
+              onClick={() => onNavigate('contact')}
+              className="premium-button py-5 px-12 text-lg w-full sm:w-auto flex items-center justify-center gap-2 group"
+            >
+              Get My Free Estimate <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+            <a
+              href="tel:+12816830111"
+              className="flex items-center gap-3 text-white font-bold text-lg hover:text-aqua transition-colors py-5 px-8 border-2 border-white/20 rounded-xl hover:border-aqua/50 transition-all w-full sm:w-auto justify-center"
+            >
+              <Phone className="w-5 h-5" /> (281) 683-0111
+            </a>
+          </motion.div>
+        </div>
+      </section>
+
+    </div>
+  );
+};
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedService, setSelectedService] = useState<string | null>(null);
@@ -1811,6 +2282,15 @@ export default function App() {
             exit={{ opacity: 0, y: -20 }}
           >
             <DifferencePage onBack={handleBack} />
+          </motion.div>
+        ) : currentPage === 'about' ? (
+          <motion.div
+            key="about"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+          >
+            <AboutPage onNavigate={setCurrentPage} />
           </motion.div>
         ) : currentPage === 'contact' ? (
           <motion.div
