@@ -1061,41 +1061,7 @@ const GalleryPage = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
-const Portfolio = () => {
-  const images = [
-    "/images/Projects/concrete-cleaning-baytown-tx.webp",
-    "/images/Projects/house-wash-concrete-cleaning-spring-tx.webp",
-    "/images/Projects/roof-washing-baytown.webp",
-    "/images/Projects/concrete-patio-cleaning-baytown-tx.webp"
-  ];
 
-  return (
-    <section id="portfolio" className="section-padding bg-white">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl mb-4">Our <span className="text-aqua">Work</span></h2>
-          <p className="text-slate-500 font-normal">A glimpse into the properties we've had the pleasure of revitalizing.</p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {images.map((img, idx) => (
-            <motion.div
-              key={idx}
-              whileHover={{ scale: 1.02 }}
-              className="aspect-square rounded-2xl overflow-hidden shadow-lg"
-            >
-              <img
-                src={img}
-                alt={`Portfolio ${idx}`}
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-              />
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
 
 const TestimonialsMarquee = () => {
   const testimonials = [
