@@ -510,6 +510,39 @@ const ServicePage = ({ serviceId, onBack }: { serviceId: string, onBack: () => v
         { title: "Slip Resistance", desc: "Removing algae and moss makes your paths safer for walking." },
         { title: "Professional Finish", desc: "Uniform cleaning without the 'tiger stripes' of amateur pressure washing." }
       ]
+    },
+    "roof-preservation": {
+      title: "Roof Preservation & Soft-Wash",
+      subtitle: "Extend the Life of Your Roof",
+      heroImage: "/images/services/roof-cleaning-houston.webp",
+      description: "High-pressure washing can crack shingles and void warranties. Our gentle chemical soft-wash process kills algae, moss, and lichen at the root — restoring your roof's appearance and protecting it for years to come.",
+      benefits: [
+        { title: "No Damage Risk", desc: "Low-pressure application is safe for all shingle types including asphalt." },
+        { title: "Longer-Lasting Results", desc: "Our solutions kill organic growth at the source, not just the surface." },
+        { title: "Boosts Property Value", desc: "A clean roof dramatically improves first impressions and curb appeal." }
+      ]
+    },
+    "fence-restoration": {
+      title: "Fence & Deck Restoration",
+      subtitle: "Bring Weathered Wood Back to Life",
+      heroImage: "/images/services/fence-cleaning.webp",
+      description: "Years of Texas sun, rain, and humidity take a toll on wood fencing and decks. We clean away built-up grime, mold, and greying to expose fresh wood grain, then seal it against the elements for lasting protection.",
+      benefits: [
+        { title: "Deep Wood Cleaning", desc: "Safe surfactants lift embedded dirt without splintering the wood grain." },
+        { title: "Protective Sealing", desc: "Optional sealant application creates a durable barrier against moisture and UV." },
+        { title: "Restored Aesthetics", desc: "Transforms weathered, grey wood back to its original warm colour." }
+      ]
+    },
+    "commercial-striping": {
+      title: "Commercial Lot Striping & Safety",
+      subtitle: "Precision Marking for Professional Properties",
+      heroImage: "/images/services/parking-lot-striping-1.webp",
+      description: "Faded lot lines create confusion, liability, and a poor first impression. Our precision striping service uses durable, high-visibility paint to re-mark parking stalls, fire lanes, and ADA spaces to code.",
+      benefits: [
+        { title: "ADA Compliance", desc: "We ensure all accessible spaces and ramps meet current federal requirements." },
+        { title: "Durable Materials", desc: "Traffic-grade paint that withstands Houston's heat, rain, and heavy vehicle traffic." },
+        { title: "Sharp First Impression", desc: "Clean, bright lines signal professionalism and care to every customer." }
+      ]
     }
   };
 
@@ -701,7 +734,7 @@ const OurProcess = ({ onBack }: { onBack: () => void }) => {
               <h2 className="text-3xl md:text-5xl text-white mb-6 leading-tight">Ready for a Property <span className="text-aqua">Transformation?</span></h2>
               <p className="text-white/60 text-lg">Experience the Reyes difference with our precision-engineered exterior care.</p>
             </div>
-            <button className="premium-button py-6 px-12 text-lg min-w-[240px]" onClick={() => onBack()}>
+            <button className="premium-button py-6 px-12 text-lg min-w-[240px]" onClick={() => { onBack(); setTimeout(() => window.location.hash = 'contact', 50); }}>
               Get Free Estimate
             </button>
           </div>
@@ -1099,18 +1132,17 @@ const Footer = ({ onNavigate }: { onNavigate?: (page: string) => void }) => {
               Professional exterior care for homeowners who value quality and property longevity.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-aqua transition-colors"><Instagram className="w-4 h-4" /></a>
-              <a href="#" className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-aqua transition-colors"><Facebook className="w-4 h-4" /></a>
+              <a href="https://www.facebook.com/reyespressurewashing" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-aqua transition-colors"><Facebook className="w-4 h-4" /></a>
             </div>
           </div>
 
           <div>
             <h4 className="text-sm font-bold tracking-widest uppercase mb-8 text-aqua">Services</h4>
             <ul className="space-y-4 text-white/60 text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">House Washing</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Surface Cleaning</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Roof Preservation</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Deck Restoration</a></li>
+              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('home'); setTimeout(() => { document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }); }, 100); }}>House Washing</a></li>
+              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('home'); setTimeout(() => { document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }); }, 100); }}>Driveway Cleaning</a></li>
+              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('home'); setTimeout(() => { document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }); }, 100); }}>Roof Preservation</a></li>
+              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('home'); setTimeout(() => { document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }); }, 100); }}>Fence &amp; Deck Restoration</a></li>
             </ul>
           </div>
 
@@ -1129,14 +1161,14 @@ const Footer = ({ onNavigate }: { onNavigate?: (page: string) => void }) => {
             <h4 className="text-sm font-bold tracking-widest uppercase mb-8 text-aqua">Contact</h4>
             <p className="text-white/60 text-sm mb-6 font-normal">Ready to refresh your home? Let's talk.</p>
             <div className="space-y-3">
-              <p className="text-xl font-display font-bold">800-REYES-CARE</p>
-              <p className="text-white/40 text-sm">hello@reyespremium.com</p>
+              <a href="tel:+12816830111" className="text-xl font-display font-bold hover:text-aqua transition-colors block">(281) 683-0111</a>
+              <a href="mailto:hello@reyespw.com" className="text-white/40 text-sm hover:text-aqua transition-colors block">hello@reyespw.com</a>
             </div>
           </div>
         </div>
 
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-white/30 text-xs tracking-widest uppercase">
-          <p>© 2024 Reyes Premium Exterior Care. All Rights Reserved.</p>
+          <p>© 2025 Reyes Pressure Washing. All Rights Reserved.</p>
           <p>Excellence in Every Drop.</p>
         </div>
       </div>
@@ -1422,7 +1454,7 @@ const MobileCTA = () => {
     <div className="fixed bottom-6 right-6 z-40 md:hidden">
       <button
         className="w-16 h-16 bg-aqua text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(0,163,224,0.4)] relative group transition-transform active:scale-95"
-        onClick={() => window.location.href = "tel:1234567890"}
+        onClick={() => window.location.href = "tel:+12816830111"}
         aria-label="Call Now"
       >
         <span className="absolute inset-0 bg-aqua rounded-full animate-ping opacity-40 duration-1000"></span>
@@ -1621,7 +1653,7 @@ const DifferencePage = ({ onBack }: { onBack: () => void }) => {
               >
                 Get Your Free Quote
               </button>
-              <a href="tel:+12810000000" className="flex items-center gap-3 text-white font-bold hover:text-aqua transition-colors py-4 px-6">
+              <a href="tel:+12816830111" className="flex items-center gap-3 text-white font-bold hover:text-aqua transition-colors py-4 px-6">
                 <Phone className="w-5 h-5" /> Speak with an Expert
               </a>
             </div>
