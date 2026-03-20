@@ -1074,12 +1074,12 @@ const Portfolio = () => {
 
 const TestimonialsMarquee = () => {
   const testimonials = [
-    { name: "Sarah M.", text: "Absolutely blown away by the attention to detail. Our driveway and siding look brand new.", rating: 5 },
-    { name: "John D.", text: "Professional, punctual, and delivered exactly what they promised. The best exterior cleaning service in Houston.", rating: 5 },
-    { name: "Emily R.", text: "The soft wash completely removed the black streaks on our roof without any damage. Highly recommend!", rating: 5 },
-    { name: "Michael T.", text: "Transformed our weathered deck back to life. It's ready for summer barbecues again.", rating: 5 },
-    { name: "Jessica L.", text: "Their property protection guarantees gave me peace of mind. Not a single plant was harmed.", rating: 5 },
-    { name: "David W.", text: "Night and day difference on our concrete patio. The team is top-notch and incredibly thorough.", rating: 5 },
+    { name: "Houston, TX", text: "Amazing results! Our driveway and sidewalks look brand new. Very professional — showed up on time and left the property spotless.", rating: 5 },
+    { name: "Baytown, TX", text: "Outstanding job soft washing our roof and house. Years of green algae gone in one visit. Highly recommend Reyes!", rating: 5 },
+    { name: "Spring, TX", text: "Best pressure washing company in the area. Fair pricing, great communication, and results exceeded our expectations.", rating: 5 },
+    { name: "Pearland, TX", text: "We hired Reyes before a big family event and they made everything look fantastic. Will definitely hire again.", rating: 5 },
+    { name: "Highlands, TX", text: "Super fast response, fair estimate, and the job was done better than expected. Team was courteous and professional throughout.", rating: 5 },
+    { name: "Nederland, TX", text: "Reyes washed our storage facility and did incredible work. On time, efficient, and very fair price for the scope of the job.", rating: 5 },
   ];
 
   return (
