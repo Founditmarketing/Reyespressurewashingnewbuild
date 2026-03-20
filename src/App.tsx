@@ -323,60 +323,85 @@ const Services = ({ onSelectService }: { onSelectService: (id: string) => void }
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="flex items-center gap-4 text-white/30 text-sm font-medium"
+            className="flex items-center gap-3 text-white/40 text-sm font-medium"
           >
-            <span>Swipe to Explore</span>
-            <div className="w-12 h-[2px] bg-white/10 relative overflow-hidden">
-              <motion.div
-                animate={{ x: [-48, 48] }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                className="absolute inset-0 bg-aqua/40"
-              />
-            </div>
+            <span className="w-8 h-px bg-white/20" />
+            <span>5 premium services</span>
           </motion.div>
         </div>
       </div>
 
-      <div className="relative w-full max-w-[100vw] overflow-x-auto snap-x snap-mandatory flex items-center pt-8 pb-16 px-6 md:px-12 xl:px-32 gap-6 scroll-smooth" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-        <style dangerouslySetInnerHTML={{ __html: `::-webkit-scrollbar { display: none; }` }} />
-        {services.map((service, idx) => (
-          <div
-            key={idx}
-            className="w-[85vw] md:w-[400px] shrink-0 snap-center group relative bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-white/10 p-4 hover:bg-white/[0.08] hover:border-white/20 flex flex-col h-[520px] shadow-2xl transition-colors cursor-pointer"
-            onClick={() => onSelectService(service.id)}
-          >
-            <div className="relative h-[260px] rounded-[2rem] overflow-hidden mb-8">
-              <img
-                src={service.image}
-                alt={service.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60" />
-              <div className="absolute top-6 left-6 w-12 h-12 bg-aqua/90 backdrop-blur-md text-white rounded-2xl flex items-center justify-center shadow-2xl border border-white/20">
-                {service.icon}
-              </div>
-            </div>
-
-            <div className="px-4 flex-1 flex flex-col">
-              <h3 className="text-2xl font-bold mb-4 text-white transition-colors group-hover:text-aqua">
-                {service.title}
-              </h3>
-              <p className="text-white/60 text-[15px] leading-relaxed mb-8 line-clamp-3">
-                {service.description}
-              </p>
-
-              <div className="mt-auto pb-4 flex items-center justify-between">
-                <span className="font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-colors text-white/60 group-hover:text-aqua">
-                  Explore Service <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <div className="w-10 h-10 rounded-full border border-white/10 text-white/40 flex items-center justify-center transition-all group-hover:border-aqua/40 group-hover:text-aqua">
-                  <ArrowRight className="w-4 h-4" />
+      {/* 3-top + 2-bottom grid */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 mt-12 pb-8">
+        {/* Row 1 — 3 cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          {services.slice(0, 3).map((service, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.08 }}
+              className="group relative bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-white/10 p-4 hover:bg-white/[0.08] hover:border-white/20 flex flex-col h-[480px] shadow-2xl transition-colors cursor-pointer"
+              onClick={() => onSelectService(service.id)}
+            >
+              <div className="relative h-[240px] rounded-[2rem] overflow-hidden mb-6">
+                <img src={service.image} alt={service.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60" />
+                <div className="absolute top-5 left-5 w-12 h-12 bg-aqua/90 backdrop-blur-md text-white rounded-2xl flex items-center justify-center shadow-2xl border border-white/20">
+                  {service.icon}
                 </div>
               </div>
-            </div>
-          </div>
-        ))}
+              <div className="px-3 flex-1 flex flex-col">
+                <h3 className="text-xl font-bold mb-3 text-white transition-colors group-hover:text-aqua">{service.title}</h3>
+                <p className="text-white/60 text-sm leading-relaxed mb-6 line-clamp-3">{service.description}</p>
+                <div className="mt-auto pb-3 flex items-center justify-between">
+                  <span className="font-bold text-xs uppercase tracking-widest flex items-center gap-2 text-white/60 group-hover:text-aqua transition-colors">
+                    Explore Service <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="w-9 h-9 rounded-full border border-white/10 text-white/40 flex items-center justify-center group-hover:border-aqua/40 group-hover:text-aqua transition-all">
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Row 2 — 2 cards centered */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:px-[12.5%]">
+          {services.slice(3).map((service, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.08 + 0.24 }}
+              className="group relative bg-white/5 backdrop-blur-xl rounded-[2.5rem] border border-white/10 p-4 hover:bg-white/[0.08] hover:border-white/20 flex flex-col h-[480px] shadow-2xl transition-colors cursor-pointer"
+              onClick={() => onSelectService(service.id)}
+            >
+              <div className="relative h-[240px] rounded-[2rem] overflow-hidden mb-6">
+                <img src={service.image} alt={service.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60" />
+                <div className="absolute top-5 left-5 w-12 h-12 bg-aqua/90 backdrop-blur-md text-white rounded-2xl flex items-center justify-center shadow-2xl border border-white/20">
+                  {service.icon}
+                </div>
+              </div>
+              <div className="px-3 flex-1 flex flex-col">
+                <h3 className="text-xl font-bold mb-3 text-white transition-colors group-hover:text-aqua">{service.title}</h3>
+                <p className="text-white/60 text-sm leading-relaxed mb-6 line-clamp-3">{service.description}</p>
+                <div className="mt-auto pb-3 flex items-center justify-between">
+                  <span className="font-bold text-xs uppercase tracking-widest flex items-center gap-2 text-white/60 group-hover:text-aqua transition-colors">
+                    Explore Service <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="w-9 h-9 rounded-full border border-white/10 text-white/40 flex items-center justify-center group-hover:border-aqua/40 group-hover:text-aqua transition-all">
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
