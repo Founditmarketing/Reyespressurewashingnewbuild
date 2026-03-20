@@ -2256,7 +2256,7 @@ export default function App() {
           <div className="flex items-center justify-center gap-4 mb-4">
             <Droplets className="w-12 h-12 text-aqua animate-pulse" />
             <h2 className="text-4xl md:text-6xl text-white font-display font-light tracking-widest uppercase">
-              Reyes <span className="font-bold">Premium</span>
+              Reyes <span className="font-bold">Pressure Washing</span>
             </h2>
           </div>
           <p className="text-white/40 tracking-[0.3em] uppercase text-xs">Initializing Revitalization...</p>
