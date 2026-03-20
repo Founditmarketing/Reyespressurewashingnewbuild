@@ -46,7 +46,7 @@ const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: string) => voi
           <div className="relative p-1.5 bg-white rounded-full border-2 border-white/80 shadow-lg transition-transform duration-300 group-hover:scale-105">
             <img
               src="/logo.webp"
-              alt="Reyes Premium"
+              alt="Reyes Pressure Washing"
               className="h-10 md:h-12 w-auto object-contain rounded-full"
             />
           </div>
@@ -1127,7 +1127,7 @@ const Footer = ({ onNavigate }: { onNavigate?: (page: string) => void }) => {
               <div className="p-1.5 bg-white rounded-full border-2 border-white/20">
                 <img
                   src="/logo.webp"
-                  alt="Reyes Premium"
+                  alt="Reyes Pressure Washing"
                   className="h-10 w-auto object-contain rounded-full"
                 />
               </div>
