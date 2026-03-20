@@ -1189,7 +1189,7 @@ const Footer = ({ onNavigate }: { onNavigate?: (page: string) => void }) => {
             <ul className="space-y-4 text-white/60 text-sm">
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('about'); }}>About Us</a></li>
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('home'); }}>The Difference</a></li>
-              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('process'); }}>Our Process</a></li>
+              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('about'); }}>Our Process</a></li>
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('gallery'); }}>Our Work</a></li>
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('contact'); }}>Contact Us</a></li>
             </ul>
