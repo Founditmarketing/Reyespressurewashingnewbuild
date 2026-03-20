@@ -495,7 +495,7 @@ const ReyesDifference = ({ onLearnMore }: { onLearnMore: () => void }) => {
               className="absolute bottom-0 right-0 w-[60%] aspect-square rounded-3xl overflow-hidden shadow-2xl z-20 border-8 border-white"
             >
               <img
-                src="/images/Projects/house-and-concrete-baytown (2).jpg"
+                src="/images/Projects/house-and-concrete-baytown-2.jpg"
                 alt="Detailed Surface Cleaning"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -1154,7 +1154,7 @@ const Footer = ({ onNavigate }: { onNavigate?: (page: string) => void }) => {
             <h4 className="text-sm font-bold tracking-widest uppercase mb-8 text-aqua">Company</h4>
             <ul className="space-y-4 text-white/60 text-sm">
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('about'); }}>About Us</a></li>
-              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('home'); }}>The Difference</a></li>
+              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('difference-page'); }}>The Difference</a></li>
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('about'); }}>Our Process</a></li>
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('gallery'); }}>Our Work</a></li>
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); onNavigate?.('contact'); }}>Contact Us</a></li>
