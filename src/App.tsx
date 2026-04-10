@@ -958,29 +958,19 @@ const GalleryPage = ({ onBack }: { onBack: () => void }) => {
   const [page, setPage] = useState(0);
   const itemsPerPage = 12;
 
-  const galleryItems = [
-    // Featured Splitting Image
-    { id: 'roof-hero', type: 'interactive', splitImage: "/images/Projects/roof-restoration-split.jpg" },
+  // All gallery photos (001–054)
+  const galleryItems = Array.from({ length: 54 }, (_, i) => {
+    const num = String(i + 1).padStart(3, '0');
+    return {
+      title: `Project ${num}`,
+      location: "Greater Houston, TX",
+      image: `/images/gallery/pressure-washing-gallery-${num}.jpg`,
+      featured: i === 0 || i === 4 || i === 10 || i === 18 || i === 30 || i === 42
+    };
+  });
 
-    // Grid Items
-    { title: "Siding Revitalization", location: "Baytown, TX", image: "/images/Projects/siding-washing-baytown-1.jpg", featured: true },
-    { title: "Driveway Cleaning", location: "Houston, TX", image: "/images/Projects/house-washing-driveway-baytown/house-dribeway-baytown-2.webp" },
-    { title: "Commercial Lot Striping", location: "Crosby, TX", image: "/images/Projects/concrete-cleaning-crosby-high-school/1-IMG_4584.webp" },
-    { title: "Roof Preservation", location: "Pearland, TX", image: "/images/Projects/roof-washing-pearland-1.jpg", featured: true },
-    { title: "Storage Facility Prep", location: "Houston, TX", image: "/images/Projects/storage-facility-cleaning-1.jpg" },
-    { title: "Stone Masonry Wash", location: "Mont Belvieu, TX", image: "/images/Projects/concrete-cleaning-mont-belvieu-2.jpg" },
-    { title: "Spring Curb Appeal", location: "Spring, TX", image: "/images/Projects/house-wash-concrete-cleaning-spring-tx.webp" },
-    { title: "Baytown Roof Restore", location: "Baytown, TX", image: "/images/Projects/roof-washing-baytown.webp" },
-    { title: "Patio Restoration", location: "Baytown, TX", image: "/images/Projects/concrete-patio-cleaning-baytown-tx.webp" },
-    { title: "Concrete Revive", location: "Houston, TX", image: "/images/Projects/concrete-cleaning-baytown-tx.webp" },
-    { title: "Siding Deep Clean", location: "Houston, TX", image: "/images/services/house-washing-houston.jpg" },
-    { title: "Gutter Guard Polish", location: "Houston, TX", image: "/images/services/gutter-cleaning.webp" },
-    { title: "Fence Restoration", location: "Pearland, TX", image: "/images/services/fence-cleaning.webp" },
-    { title: "Sidewalk Safety Wash", location: "Houston, TX", image: "/images/services/sidewalk-cleaning-houston.jpg" }
-  ];
-
-  const totalPages = Math.ceil((galleryItems.length - 1) / itemsPerPage);
-  const currentItems = galleryItems.slice(1 + page * itemsPerPage, 1 + (page + 1) * itemsPerPage);
+  const totalPages = Math.ceil(galleryItems.length / itemsPerPage);
+  const currentItems = galleryItems.slice(page * itemsPerPage, (page + 1) * itemsPerPage);
 
   return (
     <div className="pt-32 pb-24 min-h-screen bg-slate-950 relative overflow-hidden">
@@ -988,10 +978,10 @@ const GalleryPage = ({ onBack }: { onBack: () => void }) => {
       <div
         className="absolute inset-0 opacity-[0.15] mix-blend-screen pointer-events-none"
         style={{
-          backgroundImage: 'url("/images/water_spray_texture_1772669918002.png")', // Using uploaded texture name, or fallback to radial
+          backgroundImage: 'url("/images/water_spray_texture_1772669918002.png")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          filter: 'sepia(100%) hue-rotate(190deg) saturate(300%) brightness(150%)' // tinting light blue
+          filter: 'sepia(100%) hue-rotate(190deg) saturate(300%) brightness(150%)'
         }}
       />
       <div className="absolute inset-0 bg-fluid-gradient opacity-30 pointer-events-none" />
@@ -1017,12 +1007,7 @@ const GalleryPage = ({ onBack }: { onBack: () => void }) => {
           </div>
         </div>
 
-        {/* First Image: Interactive Split */}
-        <div className="mb-20">
-          <InteractiveBeforeAfter splitImage={galleryItems[0].splitImage} />
-        </div>
-
-        {/* Collage Grid */}
+        {/* Photo Grid */}
         <div id="gallery-grid" className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
           {currentItems.map((item, idx) => (
             <GalleryFlipCard key={item.title || idx} item={item} isLarge={item.featured} />
